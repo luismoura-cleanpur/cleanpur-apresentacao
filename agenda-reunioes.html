@@ -295,7 +295,21 @@ function confirmar(){
   const dateStr=`${DIAS[selDate.getDay()]}, ${selDate.getDate()} de ${MESES[selDate.getMonth()]} de 2026`;
   const gcal   =buildGcal(nome,meet);
 
-  /* ── Mensagem WhatsApp para o Luís ── */
+  /* ── Email automático para o Luís via Web3Forms ── */
+  fetch('https://api.web3forms.com/submit', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({
+      access_key:'09d83797-7ba2-41d3-b1cd-e6614f058259',
+      subject:`📅 Nova Reunião — ${nome} · ${selTime} · ${dateStr}`,
+      from_name:'Agenda CleanPur',
+      name: nome,
+      email: 'agenda@cleanpur.pt',
+      message:`NOVA REUNIÃO MARCADA\n\nCliente: ${nome}${emp2}\nTelemóvel: ${phone}\nData: ${dateStr}\nHora: ${selTime}\nVia: ${meet}\n\nAdicionar ao calendário:\n${gcal}`
+    })
+  });
+
+  /* ── WhatsApp do cliente para o Luís (backup) ── */
   const msg=`📅 *Nova Reunião Marcada*\n\n👤 *Cliente:* ${nome}${emp2}\n📱 *Contacto:* ${phone}\n📆 *Data:* ${dateStr}\n🕐 *Hora:* ${selTime}\n💬 *Via:* ${meet}\n\n🔔 Adicionar ao calendário:\n${gcal}`;
   window.open(`https://wa.me/${LUIS}?text=${encodeURIComponent(msg)}`,'_blank');
 
