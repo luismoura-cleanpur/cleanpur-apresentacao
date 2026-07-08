@@ -303,8 +303,9 @@ function confirmar(){
       access_key:'09d83797-7ba2-41d3-b1cd-e6614f058259',
       subject:`📅 Nova Reunião — ${nome} · ${selTime} · ${dateStr}`,
       from_name:'Agenda CleanPur',
+      to: 'luismoura@cleanpur.pt',
       name: nome,
-      email: 'agenda@cleanpur.pt',
+      email: 'luismoura@cleanpur.pt',
       message:`NOVA REUNIÃO MARCADA\n\nCliente: ${nome}${emp2}\nTelemóvel: ${phone}\nData: ${dateStr}\nHora: ${selTime}\nVia: ${meet}\n\nAdicionar ao calendário:\n${gcal}`
     })
   });
