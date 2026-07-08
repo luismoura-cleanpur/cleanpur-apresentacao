@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agendar Reunião · CleanPur / Water Please</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter','Segoe UI',Arial,sans-serif; background:#EEF2F7; display:flex; justify-content:center; align-items:center; min-height:100vh; padding:24px; }
+
+.card { display:flex; width:860px; min-height:580px; border-radius:18px; overflow:hidden; box-shadow:0 24px 64px rgba(0,0,0,0.16),0 0 0 1px rgba(0,0,0,0.06); }
+
+/* ── ESQUERDA ── */
+.left { width:320px; background:#1E3A5F; color:#fff; padding:36px 26px; flex-shrink:0; display:flex; flex-direction:column; }
+.brand { text-align:center; margin-bottom:28px; }
+.brand-icon { width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#00D4A0,#0095FF);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 10px;box-shadow:0 4px 16px rgba(0,212,160,0.4); }
+.brand-name { font-size:15px;font-weight:700; }
+.brand-sub  { font-size:11px;color:rgba(255,255,255,0.45);margin-top:2px; }
+.sep { height:1px;background:rgba(255,255,255,0.1);margin:16px 0; }
+.meta { display:flex;align-items:flex-start;gap:9px;margin-bottom:12px; }
+.meta-ic { font-size:14px;margin-top:1px;opacity:.7; }
+.meta-lbl { font-size:10px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:2px; }
+.meta-val { font-size:13px;color:rgba(255,255,255,0.82); }
+.sel-summary { display:none; }
+.sel-summary.show { display:block; }
+.sel-box { background:rgba(0,212,160,0.12);border:1px solid rgba(0,212,160,0.3);border-radius:10px;padding:12px 14px;font-size:13px;color:rgba(255,255,255,0.85); }
+.sel-row { display:flex;align-items:center;gap:8px;margin-bottom:4px; }
+.sel-row:last-child { margin-bottom:0; }
+
+/* Calendário */
+.month-nav { display:flex;justify-content:space-between;align-items:center;margin-bottom:14px; }
+.month-title { font-size:15px;font-weight:700; }
+.nbtn { background:none;border:none;color:rgba(255,255,255,0.5);font-size:18px;cursor:pointer;padding:4px 8px;border-radius:6px;transition:all .15s;line-height:1; }
+.nbtn:hover { background:rgba(255,255,255,0.12);color:#fff; }
+.nbtn:disabled { opacity:.18;cursor:default; }
+.wdays { display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:10px;color:rgba(255,255,255,0.3);font-weight:700;letter-spacing:.4px;margin-bottom:6px; }
+.dgrid { display:grid;grid-template-columns:repeat(7,1fr);gap:1px; }
+.day { width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;margin:auto;transition:all .15s; }
+.day.avail { color:#fff;cursor:pointer;font-weight:500; }
+.day.avail:hover { background:rgba(255,255,255,0.18); }
+.day.selected { background:#fff !important;color:#1E3A5F !important;font-weight:700; }
+.day.today-ring { border:1.5px solid rgba(0,212,160,0.75);color:#00D4A0; }
+.day.today-ring.selected { border:none; }
+.day.off { color:rgba(255,255,255,0.15);cursor:default; }
+.day.empty { cursor:default; }
+
+/* ── DIREITA ── */
+.right { flex:1;background:#fff;display:flex;flex-direction:column;padding:36px 32px; }
+.step { display:none;flex-direction:column;flex:1; }
+.step.active { display:flex; }
+.step-title { font-size:19px;font-weight:700;color:#111;margin-bottom:4px; }
+.step-sub   { font-size:13px;color:#888;margin-bottom:20px; }
+.hdivider   { height:1px;background:#F0F0F0;margin-bottom:20px; }
+
+/* Step 1 */
+.slots-h h3 { font-size:14px;font-weight:700;color:#111;margin-bottom:3px; }
+.date-lbl   { font-size:13px;color:#555;margin-bottom:10px; }
+.date-lbl strong { color:#1E3A5F; }
+.tz         { font-size:12px;color:#1E7CC8;font-weight:600;margin-bottom:16px; }
+.slots-wrap { flex:1;overflow-y:auto;max-height:300px;padding-right:4px; }
+.slots-wrap::-webkit-scrollbar { width:4px; }
+.slots-wrap::-webkit-scrollbar-thumb { background:#E0E0E0;border-radius:4px; }
+.slbl { font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#bbb;margin:12px 0 8px; }
+.slot-btn { width:100%;padding:11px;border:1.5px solid #E2E6EE;border-radius:8px;background:#fff;font-size:14px;font-weight:500;color:#333;cursor:pointer;text-align:center;margin-bottom:7px;transition:all .15s;font-family:inherit;display:block; }
+.slot-btn:hover { border-color:#1E3A5F;background:#F2F6FB;color:#1E3A5F;font-weight:600; }
+.empty-msg { text-align:center;color:#bbb;font-size:14px;padding:40px 0;line-height:1.7; }
+.empty-msg .em { font-size:30px;display:block;margin-bottom:8px; }
+
+/* Step 2 */
+.btn-back { background:none;border:none;color:#888;font-size:13px;cursor:pointer;font-family:inherit;margin-bottom:10px;text-align:left;display:inline-flex;align-items:center;gap:4px; }
+.btn-back:hover { color:#333; }
+.form-body { display:flex;flex-direction:column;gap:16px;flex:1; }
+.field label { display:block;font-size:11.5px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px; }
+.field input { width:100%;padding:11px 14px;border:1.5px solid #E2E6EE;border-radius:9px;font-size:14.5px;font-family:inherit;color:#111;outline:none;transition:border .15s; }
+.field input:focus { border-color:#1E3A5F; }
+.meet-opts { display:flex;gap:10px; }
+.meet-opt { flex:1;cursor:pointer; }
+.meet-opt input { display:none; }
+.meet-opt-box { border:1.5px solid #E2E6EE;border-radius:10px;padding:14px 8px;text-align:center;transition:all .15s;user-select:none;background:#fff; }
+.meet-opt input:checked + .meet-opt-box { border-color:#1E3A5F;background:#EEF3FA; }
+.meet-opt-box .mi { font-size:22px;margin-bottom:6px;display:block; }
+.meet-opt-box .mn { font-size:12px;font-weight:700;color:#333; }
+.meet-opt-box .ms { font-size:10.5px;color:#888;margin-top:2px; }
+.btn-confirm { padding:13px;border-radius:10px;border:none;background:linear-gradient(135deg,#1E3A5F,#2D6AA0);color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .15s; }
+.btn-confirm:hover { opacity:.88; }
+
+/* Step 3 */
+.conf-center { display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center; }
+.conf-icon  { font-size:52px;margin-bottom:16px; }
+.conf-title { font-size:20px;font-weight:700;color:#111;margin-bottom:6px; }
+.conf-sub   { font-size:14px;color:#666;margin-bottom:24px;line-height:1.6; }
+.conf-box   { background:#F5F8FF;border:1.5px solid #D0DDEF;border-radius:12px;padding:18px 22px;text-align:left;width:100%;margin-bottom:20px; }
+.conf-row   { display:flex;align-items:center;gap:10px;font-size:13.5px;color:#333;margin-bottom:8px; }
+.conf-row:last-child { margin-bottom:0; }
+.conf-row .ci { font-size:16px; }
+.btn-gcal { display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:10px;background:#34A853;color:#fff;font-size:13px;font-weight:700;text-decoration:none;transition:opacity .15s; }
+.btn-gcal:hover { opacity:.88; }
+.conf-footer { margin-top:14px;font-size:12px;color:#bbb; }
+.right-footer { padding-top:14px;border-top:1px solid #F0F0F0;margin-top:auto;font-size:11.5px;color:#ccc;text-align:center; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- ═══ ESQUERDA ═══ -->
+  <div class="left">
+    <div class="brand">
+      <div class="brand-icon">💧</div>
+      <div class="brand-name">CleanPur / Water Please</div>
+      <div class="brand-sub">Agendar reunião com Luís Moura</div>
+    </div>
+    <div class="sep"></div>
+    <div class="meta"><div class="meta-ic">⏱</div><div><div class="meta-lbl">Duração</div><div class="meta-val">30 minutos</div></div></div>
+    <div class="meta"><div class="meta-ic">💬</div><div><div class="meta-lbl">Plataforma</div><div class="meta-val" id="loc-label">WhatsApp · Meet · Zoom</div></div></div>
+    <div class="meta"><div class="meta-ic">🌍</div><div><div class="meta-lbl">Fuso horário</div><div class="meta-val">UTC+01:00 Lisboa</div></div></div>
+    <div class="sel-summary" id="sel-summary">
+      <div class="sep"></div>
+      <div class="sel-box">
+        <div class="sel-row"><span>📆</span><span id="sum-date">—</span></div>
+        <div class="sel-row"><span>🕐</span><span id="sum-time">—</span></div>
+      </div>
+    </div>
+    <div class="sep" style="margin-top:auto;margin-bottom:16px;"></div>
+    <div class="month-nav">
+      <button class="nbtn" disabled>‹</button>
+      <div class="month-title">Julho 2026</div>
+      <button class="nbtn" disabled>›</button>
+    </div>
+    <div class="wdays"><div>DOM</div><div>SEG</div><div>TER</div><div>QUA</div><div>QUI</div><div>SEX</div><div>SÁB</div></div>
+    <div class="dgrid" id="grid"></div>
+  </div>
+
+  <!-- ═══ DIREITA ═══ -->
+  <div class="right">
+
+    <!-- STEP 1 — escolher hora -->
+    <div class="step active" id="step1">
+      <div class="step-title">Agendar reunião</div>
+      <div class="step-sub">CleanPur® · Water Please — escolhe dia e hora disponíveis</div>
+      <div class="hdivider"></div>
+      <div class="slots-h">
+        <h3>Qual horário é melhor?</h3>
+        <div class="date-lbl" id="date-lbl">← Seleciona um dia disponível no calendário</div>
+        <div class="tz">🕐 UTC+01:00 Dublin, Londres, Lisboa</div>
+      </div>
+      <div class="slots-wrap" id="slots">
+        <div class="empty-msg"><span class="em">📅</span>Escolhe um dia para ver os horários disponíveis.</div>
+      </div>
+      <div class="right-footer">Os teus dados são usados exclusivamente para confirmar a reunião.</div>
+    </div>
+
+    <!-- STEP 2 — dados do cliente -->
+    <div class="step" id="step2">
+      <button class="btn-back" onclick="goStep(1)">← Voltar</button>
+      <div class="step-title">Os teus dados</div>
+      <div class="step-sub">Preenche para confirmar a tua reunião.</div>
+      <div class="hdivider"></div>
+      <div class="form-body">
+        <div class="field">
+          <label>Nome completo *</label>
+          <input type="text" id="f-name" placeholder="O teu nome completo">
+        </div>
+        <div class="field">
+          <label>Telemóvel / WhatsApp *</label>
+          <input type="tel" id="f-phone" placeholder="+351 9XX XXX XXX">
+        </div>
+        <div class="field">
+          <label>Empresa (opcional)</label>
+          <input type="text" id="f-company" placeholder="Nome da empresa">
+        </div>
+        <div class="field">
+          <label>Tipo de reunião *</label>
+          <div class="meet-opts">
+            <label class="meet-opt">
+              <input type="radio" name="meet" value="WhatsApp" checked>
+              <div class="meet-opt-box"><span class="mi">📱</span><div class="mn">WhatsApp</div><div class="ms">Chamada de voz</div></div>
+            </label>
+            <label class="meet-opt">
+              <input type="radio" name="meet" value="Google Meet">
+              <div class="meet-opt-box"><span class="mi">🎥</span><div class="mn">Google Meet</div><div class="ms">Videochamada</div></div>
+            </label>
+            <label class="meet-opt">
+              <input type="radio" name="meet" value="Zoom">
+              <div class="meet-opt-box"><span class="mi">💻</span><div class="mn">Zoom</div><div class="ms">Videochamada</div></div>
+            </label>
+          </div>
+        </div>
+        <button class="btn-confirm" onclick="confirmar()">Confirmar reunião →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 — confirmado -->
+    <div class="step" id="step3">
+      <div class="conf-center">
+        <div class="conf-icon">✅</div>
+        <div class="conf-title">Pedido enviado com sucesso!</div>
+        <div class="conf-sub">O Luís vai confirmar a reunião e enviar o link<br>pelo teu contacto em breve.</div>
+        <div class="conf-box">
+          <div class="conf-row"><span class="ci">👤</span><span id="conf-name">—</span></div>
+          <div class="conf-row"><span class="ci">📆</span><span id="conf-date">—</span></div>
+          <div class="conf-row"><span class="ci">🕐</span><span id="conf-time">—</span></div>
+          <div class="conf-row"><span class="ci">💬</span><span id="conf-via">—</span></div>
+        </div>
+        <a id="btn-gcal" class="btn-gcal" href="#" target="_blank">📅 Adicionar ao Google Calendar</a>
+        <div class="conf-footer">Receberás a confirmação final e o link da reunião em breve.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const TODAY = new Date(2026,6,9);
+const END   = new Date(2026,6,31);
+const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DIAS  = ['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
+const LUIS  = '351913360989';
+
+let selDate=null, selTime=null;
+
+function p(n){return String(n).padStart(2,'0');}
+
+function mkSlots(sh,sm,eh,em){
+  const o=[]; let h=sh,m=sm;
+  while(h<eh||(h===eh&&m<=em)){ o.push(`${p(h)}:${p(m)}`); m+=15; if(m>=60){h++;m-=60;} }
+  return o;
+}
+
+function getSlots(dow){
+  if(dow>=1&&dow<=3) return {manha:mkSlots(10,30,12,0), tarde:[]};
+  if(dow===4||dow===5) return {manha:mkSlots(11,0,12,30), tarde:mkSlots(14,30,16,0)};
+  return {manha:[],tarde:[]};
+}
+
+function avail(date){
+  const d=new Date(date.getFullYear(),date.getMonth(),date.getDate());
+  const t=new Date(TODAY.getFullYear(),TODAY.getMonth(),TODAY.getDate());
+  return d>=t && d<=END && date.getDay()>=1 && date.getDay()<=5;
+}
+
+function buildGrid(){
+  const grid=document.getElementById('grid'); grid.innerHTML='';
+  const fdow=new Date(2026,6,1).getDay();
+  const dim=new Date(2026,7,0).getDate();
+  for(let i=0;i<fdow;i++){const e=document.createElement('div');e.className='day empty';grid.appendChild(e);}
+  for(let d=1;d<=dim;d++){
+    const date=new Date(2026,6,d);
+    const el=document.createElement('div'); el.textContent=d;
+    const isT=date.toDateString()===TODAY.toDateString();
+    const isSel=selDate&&date.toDateString()===selDate.toDateString();
+    if(isSel)         el.className='day avail selected';
+    else if(!avail(date)) el.className='day off';
+    else{ el.className='day avail'+(isT?' today-ring':''); el.addEventListener('click',()=>pickDate(new Date(2026,6,d))); }
+    grid.appendChild(el);
+  }
+}
+
+function pickDate(date){
+  selDate=date; selTime=null; buildGrid(); updateSummary();
+  const {manha,tarde}=getSlots(date.getDay());
+  document.getElementById('date-lbl').innerHTML=`A mostrar horários para <strong>${DIAS[date.getDay()]}, ${date.getDate()} de ${MESES[date.getMonth()]}</strong>`;
+  const wrap=document.getElementById('slots'); wrap.innerHTML='';
+  if(!manha.length&&!tarde.length){wrap.innerHTML='<div class="empty-msg"><span class="em">🚫</span>Sem disponibilidade neste dia.</div>';return;}
+  function addBlock(lbl,list){
+    if(!list.length)return;
+    if(lbl){const l=document.createElement('div');l.className='slbl';l.textContent=lbl;wrap.appendChild(l);}
+    list.forEach(t=>{const b=document.createElement('button');b.className='slot-btn';b.textContent=t;b.addEventListener('click',()=>pickTime(t));wrap.appendChild(b);});
+  }
+  addBlock(tarde.length?'Manhã':null,manha);
+  addBlock(tarde.length?'Tarde':null,tarde);
+}
+
+function pickTime(t){ selTime=t; updateSummary(); goStep(2); }
+
+function updateSummary(){
+  const ss=document.getElementById('sel-summary');
+  if(!selDate){ss.classList.remove('show');return;}
+  ss.classList.add('show');
+  document.getElementById('sum-date').textContent=`${selDate.getDate()} de ${MESES[selDate.getMonth()]}`;
+  document.getElementById('sum-time').textContent=selTime||'Hora a escolher';
+}
+
+function goStep(n){ document.querySelectorAll('.step').forEach(s=>s.classList.remove('active')); document.getElementById('step'+n).classList.add('active'); }
+
+function confirmar(){
+  const nome   =document.getElementById('f-name').value.trim();
+  const phone  =document.getElementById('f-phone').value.trim();
+  const empresa=document.getElementById('f-company').value.trim();
+  const meet   =document.querySelector('input[name="meet"]:checked').value;
+  if(!nome||!phone){alert('Por favor preenche o nome e o telemóvel.');return;}
+  if(!selDate||!selTime){alert('Seleciona data e hora primeiro.');return;}
+
+  const emp2   =empresa?` (${empresa})`:'';
+  const dateStr=`${DIAS[selDate.getDay()]}, ${selDate.getDate()} de ${MESES[selDate.getMonth()]} de 2026`;
+  const gcal   =buildGcal(nome,meet);
+
+  /* ── Mensagem WhatsApp para o Luís ── */
+  const msg=`📅 *Nova Reunião Marcada*\n\n👤 *Cliente:* ${nome}${emp2}\n📱 *Contacto:* ${phone}\n📆 *Data:* ${dateStr}\n🕐 *Hora:* ${selTime}\n💬 *Via:* ${meet}\n\n🔔 Adicionar ao calendário:\n${gcal}`;
+  window.open(`https://wa.me/${LUIS}?text=${encodeURIComponent(msg)}`,'_blank');
+
+  /* ── Actualizar painel lateral ── */
+  const locs={'WhatsApp':'📱 WhatsApp · +351 913 360 989','Google Meet':'🎥 Google Meet (link a enviar)','Zoom':'💻 Zoom (link a enviar)'};
+  document.getElementById('loc-label').textContent=locs[meet]||meet;
+
+  /* ── Mostrar confirmação ao cliente ── */
+  document.getElementById('conf-name').innerHTML=`<strong>${nome}${emp2}</strong>`;
+  document.getElementById('conf-date').innerHTML=`<strong>${dateStr}</strong>`;
+  document.getElementById('conf-time').innerHTML=`<strong>${selTime}</strong>`;
+  document.getElementById('conf-via').innerHTML=`Via <strong>${meet}</strong>`;
+  document.getElementById('btn-gcal').href=gcal;
+  goStep(3);
+}
+
+function buildGcal(nome,meet){
+  const d=selDate;
+  const [sh,sm]=selTime.split(':').map(Number);
+  let eh=sh,em=sm+30; if(em>=60){eh++;em-=60;}
+  const ds=`${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}`;
+  const title=encodeURIComponent(`Reunião com ${nome}`);
+  const det=encodeURIComponent(`Via ${meet}\nCleanPur / Water Please\nContacto: `);
+  const loc=encodeURIComponent(meet==='WhatsApp'?'+351 913 360 989':meet);
+  return `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${ds}T${p(sh)}${p(sm)}00/${ds}T${p(eh)}${p(em)}00&details=${det}&location=${loc}`;
+}
+
+buildGrid();
+if(avail(TODAY)) pickDate(new Date(TODAY));
+</script>
+</body>
+</html>
