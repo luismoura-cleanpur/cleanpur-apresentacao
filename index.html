@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CleanPur® — 25 Anos de Excelência no Tratamento de Água</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --bg:      #06101C;
+  --bg2:     #0B1825;
+  --bg3:     #0E2030;
+  --verde:   #00D4A0;
+  --verde2:  #00F5BF;
+  --azul:    #0090F5;
+  --azul2:   #00B8FF;
+  --ouro:    #C8960C;
+  --ouro2:   #F0C842;
+  --ouro3:   #FDE68A;
+  --prata:   #C0CDD8;
+  --cinza:   #7A8FA0;
+  --glass:   rgba(255,255,255,0.04);
+  --glass2:  rgba(255,255,255,0.08);
+  --border:  rgba(255,255,255,0.07);
+  --bv:      rgba(0,212,160,0.25);
+  --ba:      rgba(200,150,12,0.30);
+  --bb:      rgba(0,144,245,0.25);
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background: #030810;
+  display:flex; justify-content:center; align-items:center;
+  min-height:100vh; overflow:hidden;
+}
+
+/* ── CONTENTOR ── */
+.deck {
+  width:1280px; height:720px;
+  position:relative; overflow:hidden;
+  box-shadow: 0 50px 120px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+/* ── SLIDES ── */
+.slide {
+  position:absolute; inset:0;
+  display:none; overflow:hidden;
+}
+.slide.on { display:flex; }
+
+/* ── NAVEGAÇÃO ── */
+.nav {
+  position:fixed; bottom:22px; left:50%; transform:translateX(-50%);
+  display:flex; align-items:center; gap:14px; z-index:999;
+  background: rgba(6,16,28,0.90); padding:10px 22px; border-radius:40px;
+  border:1px solid rgba(255,255,255,0.09); backdrop-filter:blur(16px);
+}
+.nav button {
+  background:none; border:1px solid rgba(200,150,12,0.4); color:var(--ouro2);
+  padding:6px 20px; border-radius:20px; cursor:pointer; font-size:13px;
+  font-weight:600; transition:all 0.2s; font-family:inherit;
+}
+.nav button:hover { background:rgba(200,150,12,0.12); border-color:var(--ouro2); }
+.nav .info { font-size:12px; color:var(--cinza); min-width:52px; text-align:center; }
+.dots { display:flex; gap:5px; align-items:center; }
+.dot { width:5px; height:5px; border-radius:50%; background:rgba(255,255,255,0.18); cursor:pointer; transition:all 0.25s; }
+.dot.on { background:var(--ouro2); width:16px; border-radius:3px; }
+
+/* ── TIPOGRAFIA ── */
+.h1 { font-size:58px; font-weight:900; line-height:1.08; letter-spacing:-1px; }
+.h2 { font-size:40px; font-weight:800; line-height:1.15; letter-spacing:-0.5px; }
+.h3 { font-size:20px; font-weight:700; }
+.body { font-size:15px; line-height:1.7; color:var(--prata); }
+.small { font-size:13px; line-height:1.65; color:var(--cinza); }
+.xsmall { font-size:11px; line-height:1.5; color:var(--cinza); }
+
+/* ── GRADIENTES TEXTO ── */
+.gr-v  { background:linear-gradient(135deg,var(--verde),var(--azul2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.gr-o  { background:linear-gradient(135deg,var(--ouro),var(--ouro2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.gr-b  { background:linear-gradient(135deg,var(--azul),var(--azul2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+/* ── TAGS / CHIPS ── */
+.tag {
+  display:inline-flex; align-items:center; gap:5px;
+  border:1px solid var(--bv); background:rgba(0,212,160,0.07);
+  color:var(--verde); padding:5px 14px; border-radius:20px;
+  font-size:10.5px; letter-spacing:2px; text-transform:uppercase; font-weight:700;
+}
+.tag-o { border-color:var(--ba); background:rgba(200,150,12,0.07); color:var(--ouro2); }
+.tag-b { border-color:var(--bb); background:rgba(0,144,245,0.07); color:var(--azul2); }
+
+/* ── GLASS CARD ── */
+.gc {
+  background:var(--glass); border:1px solid var(--border); border-radius:16px;
+  padding:24px 20px;
+}
+.gc-v { border-color:rgba(0,212,160,0.2); background:rgba(0,212,160,0.04); }
+.gc-o { border-color:rgba(200,150,12,0.22); background:rgba(200,150,12,0.04); }
+.gc-b { border-color:rgba(0,144,245,0.2); background:rgba(0,144,245,0.04); }
+
+/* linha topo colorida nos gc */
+.gc-v::before,.gc-o::before,.gc-b::before {
+  content:''; display:block; height:2px; border-radius:2px; margin-bottom:16px; width:32px;
+}
+.gc-v::before { background:linear-gradient(90deg,var(--verde),transparent); }
+.gc-o::before { background:linear-gradient(90deg,var(--ouro2),transparent); }
+.gc-b::before { background:linear-gradient(90deg,var(--azul2),transparent); }
+
+/* ── ORBE / GLOW ── */
+.orbe {
+  position:absolute; border-radius:50%;
+  background:radial-gradient(circle,var(--c) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+/* ══════════════════════════════════════════════════
+   S1 — CAPA
+══════════════════════════════════════════════════ */
+#s1 { background:var(--bg); flex-direction:row; }
+
+.s1-left {
+  width:56%; display:flex; flex-direction:column; justify-content:center;
+  padding:72px 80px; position:relative; z-index:1;
+}
+.s1-brand { display:flex; align-items:center; gap:14px; margin-bottom:52px; }
+.s1-mark {
+  width:52px; height:52px; border-radius:14px;
+  background:linear-gradient(135deg,var(--verde),var(--azul));
+  display:flex; align-items:center; justify-content:center; font-size:24px;
+  box-shadow:0 0 30px rgba(0,212,160,0.45);
+}
+.s1-name { font-size:24px; font-weight:900; color:#fff; letter-spacing:3px; }
+.s1-name sup { font-size:12px; color:var(--ouro2); vertical-align:super; letter-spacing:0; }
+
+.s1-badge {
+  display:inline-flex; align-items:center; gap:8px; margin-bottom:28px;
+  border:1px solid rgba(200,150,12,0.4); background:rgba(200,150,12,0.08);
+  padding:7px 18px; border-radius:24px;
+}
+.s1-badge .num { font-size:20px; font-weight:900; color:var(--ouro2); }
+.s1-badge .lbl { font-size:11px; color:var(--ouro3); letter-spacing:1.5px; text-transform:uppercase; font-weight:600; }
+
+.s1-title { color:#fff; margin-bottom:22px; }
+.s1-sub { max-width:490px; margin-bottom:52px; }
+.s1-chips { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:44px; }
+.s1-kpis { display:flex; gap:0; }
+.s1-kpi { text-align:left; padding:0 28px; border-right:1px solid rgba(255,255,255,0.08); }
+.s1-kpi:first-child { padding-left:0; }
+.s1-kpi:last-child { border-right:none; }
+.s1-kpi .n { font-size:34px; font-weight:900; }
+.s1-kpi .l { font-size:10.5px; color:var(--cinza); text-transform:uppercase; letter-spacing:1.2px; margin-top:3px; }
+
+.s1-right {
+  width:44%; position:relative; display:flex; align-items:center; justify-content:center;
+}
+.s1-ring {
+  position:absolute; border-radius:50%; border:1px solid;
+  top:50%; left:50%; transform:translate(-50%,-50%);
+}
+.s1-icons-col {
+  position:relative; z-index:1; display:flex; flex-direction:column; gap:14px;
+}
+.s1-ic {
+  display:flex; align-items:center; gap:12px;
+  background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.09);
+  border-radius:12px; padding:12px 18px; backdrop-filter:blur(8px);
+  white-space:nowrap; color:rgba(255,255,255,0.75); font-size:13px; font-weight:500;
+}
+.s1-ic .em { font-size:18px; }
+.s1-ic .dot-v { width:6px; height:6px; border-radius:50%; background:var(--verde); margin-left:auto; box-shadow:0 0 6px var(--verde); }
+.s1-ic .dot-o { width:6px; height:6px; border-radius:50%; background:var(--ouro2); margin-left:auto; box-shadow:0 0 6px var(--ouro2); }
+.s1-ic .dot-b { width:6px; height:6px; border-radius:50%; background:var(--azul2); margin-left:auto; box-shadow:0 0 6px var(--azul2); }
+
+/* ══════════════════════════════════════════════════
+   S2 — 25 ANOS: HISTÓRIA & MISSÃO
+══════════════════════════════════════════════════ */
+#s2 { background:var(--bg); flex-direction:row; }
+
+.s2-left {
+  width:46%; background:linear-gradient(160deg,#050D17 0%,#091830 60%,#07152A 100%);
+  display:flex; flex-direction:column; justify-content:center; padding:64px 56px;
+  position:relative; overflow:hidden;
+}
+.s2-left::before {
+  content:''; position:absolute; bottom:-80px; left:-80px;
+  width:400px; height:400px; border-radius:50%;
+  background:radial-gradient(circle,rgba(200,150,12,0.12) 0%,transparent 65%);
+}
+.s2-left > * { position:relative; z-index:1; }
+.s2-aniversario {
+  display:flex; align-items:baseline; gap:10px; margin-bottom:24px;
+}
+.s2-aniversario .big-n { font-size:88px; font-weight:900; line-height:1; }
+.s2-aniversario .suffix { font-size:18px; font-weight:700; color:var(--ouro3); }
+.s2-subtitle { font-size:15px; color:var(--prata); line-height:1.7; margin-bottom:36px; }
+.s2-valores { display:flex; flex-direction:column; gap:10px; }
+.s2-val {
+  display:flex; align-items:center; gap:12px;
+  font-size:14px; color:rgba(255,255,255,0.8); font-weight:500;
+}
+.s2-val .ico { font-size:18px; width:34px; height:34px; border-radius:8px;
+  background:rgba(200,150,12,0.12); border:1px solid rgba(200,150,12,0.2);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+.s2-right {
+  width:54%; background:var(--bg2);
+  display:flex; flex-direction:column; justify-content:center; padding:52px 56px;
+}
+.s2-right h3 { font-size:14px; font-weight:700; color:var(--cinza); letter-spacing:2px; text-transform:uppercase; margin-bottom:28px; }
+.timeline { display:flex; flex-direction:column; gap:0; }
+.tl-item {
+  display:grid; grid-template-columns:76px 1fr; gap:20px; align-items:flex-start;
+  padding:16px 0; border-bottom:1px solid var(--border); position:relative;
+}
+.tl-item:last-child { border-bottom:none; }
+.tl-year { font-size:13px; font-weight:800; color:var(--ouro2); padding-top:2px; letter-spacing:0.5px; }
+.tl-body h4 { font-size:14px; font-weight:700; color:#fff; margin-bottom:3px; }
+.tl-body p { font-size:12.5px; color:var(--cinza); line-height:1.5; }
+.tl-dot {
+  position:absolute; left:62px; top:22px; width:8px; height:8px; border-radius:50%;
+  background:var(--ouro2); box-shadow:0 0 8px var(--ouro2);
+}
+
+/* ══════════════════════════════════════════════════
+   S3 — PORTFÓLIO OVERVIEW
+══════════════════════════════════════════════════ */
+#s3 {
+  background:var(--bg); flex-direction:column; align-items:center;
+  justify-content:center; padding:48px 64px;
+}
+#s3 .top { text-align:center; margin-bottom:40px; }
+#s3 .top .tag { margin-bottom:14px; }
+#s3 .top .h2 { color:#fff; }
+
+.porto { display:grid; grid-template-columns:repeat(7,1fr); gap:14px; width:100%; }
+.porto-c {
+  background:var(--glass); border:1px solid var(--border); border-radius:14px;
+  padding:20px 14px; text-align:center; position:relative; overflow:hidden;
+  cursor:default; transition:border-color 0.2s, box-shadow 0.2s;
+}
+.porto-c:hover { border-color:rgba(200,150,12,0.3); box-shadow:0 0 24px rgba(200,150,12,0.06); }
+.porto-c .glow { position:absolute; bottom:-30px; left:50%; transform:translateX(-50%); width:60px; height:60px; border-radius:50%; filter:blur(20px); opacity:0.4; }
+.porto-c .ico { font-size:30px; margin-bottom:12px; display:block; }
+.porto-c .num { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:6px; }
+.porto-c .ttl { font-size:12px; font-weight:700; color:#fff; line-height:1.3; }
+.pc-v .num { color:var(--verde); } .pc-v .glow { background:var(--verde); }
+.pc-o .num { color:var(--ouro2); } .pc-o .glow { background:var(--ouro2); }
+.pc-b .num { color:var(--azul2); } .pc-b .glow { background:var(--azul2); }
+
+/* ══════════════════════════════════════════════════
+   S4 — ECO RESORTS
+══════════════════════════════════════════════════ */
+#s4 { background:var(--bg); flex-direction:row; }
+
+.eco-l {
+  width:40%; background:linear-gradient(160deg,#06160F 0%,#0D2B18 55%,#0A1E18 100%);
+  display:flex; flex-direction:column; justify-content:center; padding:60px 52px;
+  position:relative; overflow:hidden;
+}
+.eco-l::after {
+  content:''; position:absolute; top:-60px; right:-60px; width:360px; height:360px;
+  border-radius:50%; background:radial-gradient(circle,rgba(0,212,160,0.18) 0%,transparent 65%);
+}
+.eco-l > * { position:relative; z-index:1; }
+.eco-l .tag { margin-bottom:20px; }
+.eco-l .h2 { color:#fff; margin-bottom:14px; }
+.eco-l .body { margin-bottom:28px; }
+.eco-checks { display:flex; flex-direction:column; gap:10px; }
+.eco-ch { display:flex; align-items:center; gap:10px; font-size:13.5px; color:rgba(255,255,255,0.78); }
+.eco-ch .ck { font-size:12px; color:var(--verde); font-weight:700; }
+
+.eco-r {
+  width:60%; background:var(--bg2); display:flex; flex-direction:column;
+  justify-content:center; padding:48px 52px;
+}
+.eco-r .sub { font-size:11px; font-weight:700; color:var(--cinza); letter-spacing:2px; text-transform:uppercase; margin-bottom:20px; }
+.eco-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.eco-c {
+  background:var(--glass); border:1px solid var(--border); border-radius:12px;
+  padding:18px 16px; transition:border-color 0.2s;
+}
+.eco-c:hover { border-color:rgba(0,212,160,0.25); }
+.eco-c .ec { font-size:22px; margin-bottom:8px; display:block; }
+.eco-c h4 { font-size:13.5px; font-weight:700; color:#fff; margin-bottom:5px; }
+.eco-c p { font-size:12px; color:var(--cinza); line-height:1.5; }
+
+/* ══════════════════════════════════════════════════
+   S5 — FILTRAÇÃO & INDÚSTRIA
+══════════════════════════════════════════════════ */
+#s5 {
+  background:var(--bg); flex-direction:column; align-items:center;
+  justify-content:center; padding:48px 68px;
+}
+#s5 .top { text-align:center; margin-bottom:36px; }
+#s5 .top .h2 { color:#fff; }
+.fi-row { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; width:100%; margin-bottom:20px; }
+.fi-c {
+  background:var(--glass); border:1px solid var(--border); border-radius:14px;
+  padding:22px 16px; text-align:center;
+}
+.fi-c .fi-top { height:3px; border-radius:3px; margin-bottom:16px; }
+.fi-c .ico { font-size:28px; margin-bottom:10px; display:block; }
+.fi-c h4 { font-size:13.5px; font-weight:700; color:#fff; margin-bottom:6px; }
+.fi-c p { font-size:12px; color:var(--cinza); line-height:1.5; }
+.fi-b-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; width:100%; }
+.fi-banner {
+  background:rgba(0,144,245,0.05); border:1px solid rgba(0,144,245,0.18);
+  border-radius:12px; padding:16px 18px; display:flex; align-items:center; gap:12px;
+}
+.fi-banner .em { font-size:24px; flex-shrink:0; }
+.fi-banner h4 { font-size:13px; font-weight:700; color:#fff; margin-bottom:3px; }
+.fi-banner p { font-size:12px; color:var(--cinza); line-height:1.4; }
+
+/* ══════════════════════════════════════════════════
+   S6 — DESSALINIZAÇÃO
+══════════════════════════════════════════════════ */
+#s6 { background:var(--bg); flex-direction:row; }
+
+.desal-l {
+  width:48%; background:linear-gradient(160deg,#05101E 0%,#08213E 55%,#071C38 100%);
+  display:flex; flex-direction:column; justify-content:center; padding:60px 52px;
+  position:relative; overflow:hidden;
+}
+.desal-l::before {
+  content:''; position:absolute; bottom:-80px; left:-80px; width:420px; height:420px;
+  border-radius:50%; background:radial-gradient(circle,rgba(0,144,245,0.15) 0%,transparent 65%);
+}
+.desal-l > * { position:relative; z-index:1; }
+.desal-l .tag { margin-bottom:20px; }
+.desal-l .h2 { color:#fff; margin-bottom:14px; }
+.desal-l .body { margin-bottom:28px; }
+.desal-flow { display:flex; flex-direction:column; gap:10px; }
+.df-step {
+  display:flex; align-items:center; gap:12px;
+  background:rgba(0,144,245,0.08); border:1px solid rgba(0,144,245,0.18);
+  border-radius:10px; padding:10px 14px;
+}
+.df-step .n { font-size:10.5px; font-weight:800; color:var(--azul2); min-width:18px; }
+.df-step .t { font-size:13px; color:rgba(255,255,255,0.8); }
+
+.desal-r {
+  width:52%; background:var(--bg2); display:flex; flex-direction:column;
+  justify-content:center; padding:48px 52px; gap:18px;
+}
+.param-g { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.param {
+  background:var(--glass); border:1px solid var(--border); border-radius:12px; padding:16px;
+}
+.param .v { font-size:26px; font-weight:800; color:var(--azul2); }
+.param .l { font-size:11px; color:var(--cinza); margin-top:4px; }
+.apps { display:flex; flex-direction:column; gap:8px; }
+.app-i {
+  display:flex; align-items:center; gap:10px; font-size:13px; color:rgba(255,255,255,0.75);
+  padding:9px 12px; border-radius:8px;
+  background:rgba(0,144,245,0.06); border:1px solid rgba(0,144,245,0.14);
+}
+
+/* ══════════════════════════════════════════════════
+   S7 — ÁGUAS PLUVIAIS
+══════════════════════════════════════════════════ */
+#s7 {
+  background:var(--bg); flex-direction:column; align-items:center;
+  justify-content:center; padding:48px 80px;
+}
+#s7 .top { text-align:center; margin-bottom:40px; }
+#s7 .top .h2 { color:#fff; }
+.rain-lay { display:grid; grid-template-columns:1.3fr 1fr; gap:36px; width:100%; align-items:center; }
+.rain-flow { display:flex; flex-direction:column; }
+.rs {
+  display:flex; align-items:flex-start; gap:16px; position:relative; padding-bottom:6px;
+}
+.rs:not(:last-child)::after {
+  content:''; position:absolute; left:19px; top:44px; width:2px; height:calc(100% - 10px);
+  background:linear-gradient(180deg,var(--verde),transparent);
+}
+.rs-ico {
+  width:38px; height:38px; border-radius:10px; flex-shrink:0;
+  background:rgba(0,212,160,0.12); border:1px solid rgba(0,212,160,0.25);
+  display:flex; align-items:center; justify-content:center; font-size:17px; z-index:1;
+}
+.rs-body { padding-bottom:20px; }
+.rs-body h4 { font-size:13.5px; font-weight:700; color:#fff; margin-bottom:3px; }
+.rs-body p { font-size:12px; color:var(--cinza); line-height:1.5; }
+.rain-r { display:flex; flex-direction:column; gap:14px; }
+.rain-stat {
+  background:var(--glass); border:1px solid var(--border); border-radius:14px; padding:20px 22px;
+}
+.rain-stat .big { font-size:36px; font-weight:900; }
+.rain-stat .lbl { font-size:12px; color:var(--cinza); margin-top:3px; }
+.rain-stat.v { border-color:rgba(0,212,160,0.2); } .rain-stat.v .big { color:var(--verde); }
+.rain-stat.b { border-color:rgba(0,144,245,0.2); } .rain-stat.b .big { color:var(--azul2); }
+
+/* ══════════════════════════════════════════════════
+   S8 — ETAREs BIOLÓGICAS
+══════════════════════════════════════════════════ */
+#s8 { background:var(--bg); flex-direction:row; }
+
+.et-l {
+  width:40%; background:linear-gradient(160deg,#0B1409 0%,#1A2B10 55%,#111E0C 100%);
+  display:flex; flex-direction:column; justify-content:center; padding:60px 48px;
+  position:relative; overflow:hidden;
+}
+.et-l::before {
+  content:''; position:absolute; top:-60px; right:-60px; width:340px; height:340px;
+  border-radius:50%; background:radial-gradient(circle,rgba(0,212,160,0.14) 0%,transparent 65%);
+}
+.et-l > * { position:relative; z-index:1; }
+.et-l .tag { margin-bottom:20px; }
+.et-l .h2 { color:#fff; margin-bottom:14px; }
+.et-l .body { margin-bottom:24px; }
+.et-bens { display:flex; flex-direction:column; gap:8px; }
+.et-b {
+  display:flex; align-items:center; gap:10px; font-size:13px; color:rgba(255,255,255,0.78);
+  padding:9px 12px; border-radius:9px;
+  background:rgba(0,212,160,0.06); border:1px solid rgba(0,212,160,0.14);
+}
+
+.et-r {
+  width:60%; background:var(--bg2); display:flex; flex-direction:column;
+  justify-content:center; padding:48px 52px; gap:12px;
+}
+.et-r .sub { font-size:11px; font-weight:700; color:var(--cinza); letter-spacing:2px; text-transform:uppercase; margin-bottom:14px; }
+.ep { display:grid; grid-template-columns:auto 1fr; gap:14px; align-items:center; padding:12px 0; border-bottom:1px solid var(--border); }
+.ep:last-of-type { border-bottom:none; }
+.ep-badge { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+.ep-badge.v { background:rgba(0,212,160,0.14); border:1px solid rgba(0,212,160,0.25); }
+.ep-badge.b { background:rgba(0,144,245,0.14); border:1px solid rgba(0,144,245,0.25); }
+.ep-badge.o { background:rgba(200,150,12,0.14); border:1px solid rgba(200,150,12,0.25); }
+.ep h4 { font-size:13.5px; font-weight:700; color:#fff; margin-bottom:3px; }
+.ep p { font-size:12px; color:var(--cinza); line-height:1.45; }
+.et-note {
+  background:rgba(0,212,160,0.05); border:1px solid rgba(0,212,160,0.18); border-radius:10px;
+  padding:12px 14px; font-size:12.5px; color:rgba(255,255,255,0.7); display:flex; gap:8px; margin-top:4px;
+}
+
+/* ══════════════════════════════════════════════════
+   S9 — DESPORTO & H₂ (NOVO)
+══════════════════════════════════════════════════ */
+#s9 { background:var(--bg); flex-direction:row; }
+
+.sp-l {
+  width:45%; background:linear-gradient(160deg,#0A0A1E 0%,#12124A 55%,#0D0D38 100%);
+  display:flex; flex-direction:column; justify-content:center; padding:60px 52px;
+  position:relative; overflow:hidden;
+}
+.sp-l::after {
+  content:''; position:absolute; top:-60px; right:-60px; width:400px; height:400px;
+  border-radius:50%; background:radial-gradient(circle,rgba(200,150,12,0.18) 0%,transparent 65%);
+}
+.sp-l > * { position:relative; z-index:1; }
+.sp-l .tag { margin-bottom:20px; }
+.sp-l .h2 { color:#fff; margin-bottom:14px; }
+.sp-l .body { margin-bottom:28px; }
+
+.h2-formula {
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(200,150,12,0.1); border:1px solid rgba(200,150,12,0.3);
+  border-radius:12px; padding:8px 16px; margin-bottom:20px;
+}
+.h2-formula .formula { font-size:22px; font-weight:900; color:var(--ouro2); }
+.h2-formula .label { font-size:11px; color:var(--ouro3); font-weight:600; }
+
+.sp-benefits { display:flex; flex-direction:column; gap:10px; }
+.sp-b {
+  display:flex; align-items:center; gap:10px;
+  background:rgba(200,150,12,0.07); border:1px solid rgba(200,150,12,0.18);
+  border-radius:10px; padding:10px 14px;
+  font-size:13px; color:rgba(255,255,255,0.82);
+}
+.sp-b .ic { font-size:16px; }
+
+.sp-r {
+  width:55%; background:var(--bg2); display:flex; flex-direction:column;
+  justify-content:center; padding:48px 52px; gap:16px;
+}
+.sp-r .sub { font-size:11px; font-weight:700; color:var(--cinza); letter-spacing:2px; text-transform:uppercase; margin-bottom:14px; }
+.sp-cards { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px; }
+.sp-c {
+  background:var(--glass); border:1px solid var(--border); border-radius:12px; padding:18px 16px;
+}
+.sp-c .ico { font-size:24px; margin-bottom:8px; display:block; }
+.sp-c h4 { font-size:13px; font-weight:700; color:#fff; margin-bottom:5px; }
+.sp-c p { font-size:11.5px; color:var(--cinza); line-height:1.5; }
+.sp-c.a { border-color:rgba(200,150,12,0.2); }
+.ppb-bar {
+  background:rgba(200,150,12,0.06); border:1px solid rgba(200,150,12,0.22);
+  border-radius:12px; padding:16px 20px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.ppb-bar .left h4 { font-size:13px; font-weight:700; color:#fff; margin-bottom:3px; }
+.ppb-bar .left p { font-size:12px; color:var(--cinza); }
+.ppb-bar .right { font-size:28px; font-weight:900; color:var(--ouro2); text-align:right; }
+.ppb-bar .right span { display:block; font-size:10px; color:var(--cinza); font-weight:500; }
+
+/* ══════════════════════════════════════════════════
+   S10 — HORECA (NOVO)
+══════════════════════════════════════════════════ */
+#s10 { background:var(--bg); flex-direction:row; }
+
+.ho-l {
+  width:40%; background:linear-gradient(160deg,#100A0A 0%,#2A0D0D 55%,#1E0B0B 100%);
+  display:flex; flex-direction:column; justify-content:center; padding:60px 48px;
+  position:relative; overflow:hidden;
+}
+.ho-l::before {
+  content:''; position:absolute; bottom:-80px; right:-80px; width:400px; height:400px;
+  border-radius:50%; background:radial-gradient(circle,rgba(200,150,12,0.2) 0%,transparent 65%);
+}
+.ho-l > * { position:relative; z-index:1; }
+.ho-l .tag { margin-bottom:20px; }
+.ho-l .h2 { color:#fff; margin-bottom:14px; }
+.ho-l .body { margin-bottom:28px; }
+.ho-selos { display:flex; flex-wrap:wrap; gap:8px; }
+.ho-selo {
+  display:flex; align-items:center; gap:6px; font-size:12px; font-weight:600;
+  color:var(--ouro2); padding:6px 12px; border-radius:8px;
+  background:rgba(200,150,12,0.10); border:1px solid rgba(200,150,12,0.25);
+}
+
+.ho-r {
+  width:60%; background:var(--bg2); display:flex; flex-direction:column;
+  justify-content:center; padding:48px 52px;
+}
+.ho-r .sub { font-size:11px; font-weight:700; color:var(--cinza); letter-spacing:2px; text-transform:uppercase; margin-bottom:20px; }
+.ho-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.ho-c {
+  background:var(--glass); border:1px solid var(--border); border-radius:12px;
+  padding:18px 16px;
+}
+.ho-c .ic { font-size:22px; margin-bottom:8px; display:block; }
+.ho-c h4 { font-size:13.5px; font-weight:700; color:#fff; margin-bottom:5px; }
+.ho-c p { font-size:12px; color:var(--cinza); line-height:1.5; }
+.ho-c .badge-tds {
+  display:inline-block; margin-top:8px; font-size:11px; font-weight:700;
+  color:var(--ouro2); background:rgba(200,150,12,0.1); border:1px solid rgba(200,150,12,0.2);
+  border-radius:6px; padding:3px 8px;
+}
+
+/* ══════════════════════════════════════════════════
+   S11 — CLIENTES DE REFERÊNCIA (NOVO)
+══════════════════════════════════════════════════ */
+#s11 {
+  background:var(--bg); flex-direction:column; align-items:center;
+  justify-content:center; padding:48px 64px;
+}
+#s11 .top { text-align:center; margin-bottom:44px; }
+#s11 .top .tag { margin-bottom:14px; }
+#s11 .top .h2 { color:#fff; }
+#s11 .top p { font-size:15px; color:var(--cinza); margin-top:10px; }
+
+.clients-row { display:flex; flex-direction:column; gap:20px; width:100%; }
+.client-sector-label {
+  font-size:10.5px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase;
+  color:var(--cinza); margin-bottom:12px; display:flex; align-items:center; gap:10px;
+}
+.client-sector-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+.clients-band { display:flex; gap:14px; }
+.client-card {
+  flex:1; background:var(--glass2); border:1px solid var(--border); border-radius:14px;
+  padding:20px 18px; display:flex; flex-direction:column; gap:6px;
+  transition:border-color 0.2s, transform 0.2s;
+}
+.client-card:hover { border-color:rgba(200,150,12,0.3); transform:translateY(-2px); }
+.client-card .cc-icon { font-size:22px; margin-bottom:4px; }
+.client-card .cc-name { font-size:14px; font-weight:800; color:#fff; }
+.client-card .cc-sector { font-size:11px; color:var(--cinza); font-weight:500; }
+.client-card .cc-sol { font-size:11.5px; color:var(--ouro3); margin-top:4px; font-weight:600; }
+.cc-o { border-left:3px solid var(--ouro2) !important; }
+.cc-v { border-left:3px solid var(--verde) !important; }
+.cc-b { border-left:3px solid var(--azul2) !important; }
+
+.clients-bottom {
+  margin-top:20px; padding:14px 24px;
+  background:rgba(200,150,12,0.05); border:1px solid rgba(200,150,12,0.18);
+  border-radius:12px; display:flex; align-items:center; gap:14px;
+  font-size:13px; color:rgba(255,255,255,0.65);
+}
+.clients-bottom .ic { font-size:18px; color:var(--ouro2); flex-shrink:0; }
+
+/* ══════════════════════════════════════════════════
+   S12 — PORQUÊ CLEANPUR
+══════════════════════════════════════════════════ */
+#s12 {
+  background:var(--bg); flex-direction:column; align-items:center;
+  justify-content:center; padding:48px 72px;
+}
+#s12 .top { text-align:center; margin-bottom:40px; }
+#s12 .top .h2 { color:#fff; }
+.why-g { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; width:100%; }
+.wc {
+  background:var(--glass); border:1px solid var(--border); border-radius:16px;
+  padding:24px 20px; position:relative; overflow:hidden;
+}
+.wc .bar { position:absolute; top:0; left:0; right:0; height:2px; }
+.wc .ico { font-size:26px; margin-bottom:12px; display:block; }
+.wc h4 { font-size:14.5px; font-weight:700; color:#fff; margin-bottom:7px; }
+.wc p { font-size:12.5px; color:var(--cinza); line-height:1.6; }
+.wc.v .bar { background:linear-gradient(90deg,var(--verde),transparent); }
+.wc.o .bar { background:linear-gradient(90deg,var(--ouro2),transparent); }
+.wc.b .bar { background:linear-gradient(90deg,var(--azul2),transparent); }
+
+/* ══════════════════════════════════════════════════
+   S13 — CONTACTO / CTA
+══════════════════════════════════════════════════ */
+#s13 {
+  background:var(--bg); flex-direction:column; align-items:center;
+  justify-content:center; padding:52px 80px; position:relative; overflow:hidden;
+}
+.s13-orb {
+  position:absolute; border-radius:50%; pointer-events:none;
+}
+.s13-o1 { width:700px; height:700px; top:50%; left:50%; transform:translate(-50%,-50%); background:radial-gradient(circle,rgba(200,150,12,0.05) 0%,rgba(0,144,245,0.04) 40%,transparent 70%); }
+.s13-o2 { width:380px; height:380px; top:50%; left:50%; transform:translate(-50%,-50%); border:1px solid rgba(200,150,12,0.08); }
+.s13-o3 { width:220px; height:220px; top:50%; left:50%; transform:translate(-50%,-50%); border:1px solid rgba(200,150,12,0.12); }
+
+#s13 > *:not(.s13-orb) { position:relative; z-index:1; }
+.s13-brand { display:flex; align-items:center; gap:12px; margin-bottom:36px; }
+.s13-brand .mark { width:44px; height:44px; border-radius:12px; background:linear-gradient(135deg,var(--verde),var(--azul)); display:flex; align-items:center; justify-content:center; font-size:20px; box-shadow:0 0 24px rgba(0,212,160,0.35); }
+.s13-brand .name { font-size:22px; font-weight:900; color:#fff; letter-spacing:2.5px; }
+.s13-brand .name sup { font-size:11px; color:var(--ouro2); }
+
+.s13-badge {
+  display:inline-flex; align-items:center; gap:6px; margin-bottom:20px;
+  border:1px solid rgba(200,150,12,0.35); background:rgba(200,150,12,0.07);
+  padding:6px 16px; border-radius:20px;
+  font-size:11px; color:var(--ouro2); font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+}
+
+#s13 .h2 { color:#fff; text-align:center; margin-bottom:10px; }
+#s13 .body { text-align:center; max-width:520px; margin-bottom:40px; }
+
+.cc-row { display:flex; gap:18px; width:100%; max-width:880px; margin-bottom:36px; }
+.cc-card {
+  flex:1; background:var(--glass); border:1px solid var(--border); border-radius:14px;
+  padding:22px 18px; text-align:center;
+}
+.cc-card .ci { font-size:26px; margin-bottom:8px; display:block; }
+.cc-card .cl { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--cinza); margin-bottom:5px; font-weight:600; }
+.cc-card .cv { font-size:14px; font-weight:700; color:#fff; }
+.cc-card.highlight { border-color:rgba(200,150,12,0.3); background:rgba(200,150,12,0.05); }
+
+.s13-foot { font-size:12px; color:var(--cinza); }
+.s13-foot span { color:var(--ouro2); font-weight:600; }
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- ═══════════ S1 — CAPA ═══════════ -->
+<div class="slide on" id="s1">
+  <div class="s1-left">
+    <div class="s1-brand">
+      <div class="s1-mark">💧</div>
+      <div class="s1-name">CLEANPUR<sup>®</sup></div>
+    </div>
+    <div class="s1-badge"><span class="num">25</span><span class="lbl">Anos de Excelência · 2001–2026</span></div>
+    <div class="h1 s1-title">Água <span class="gr-v">Sustentável.</span><br>Soluções <span class="gr-o">Industriais.</span></div>
+    <p class="body s1-sub">Líderes nacionais em tratamento de água para indústria, eco resorts, hotelaria, desporto, dessalinização e saneamento ambiental.</p>
+    <div class="s1-chips">
+      <span class="tag">Eco Resorts</span>
+      <span class="tag tag-b">Indústria</span>
+      <span class="tag tag-o">Desporto &amp; H₂</span>
+      <span class="tag">HORECA</span>
+      <span class="tag tag-b">Dessalinização</span>
+    </div>
+    <div class="s1-kpis">
+      <div class="s1-kpi"><div class="n gr-o">25</div><div class="l">Anos de experiência</div></div>
+      <div class="s1-kpi"><div class="n gr-v">7</div><div class="l">Verticais especializadas</div></div>
+      <div class="s1-kpi"><div class="n gr-b">19</div><div class="l">Distritos cobertos</div></div>
+      <div class="s1-kpi"><div class="n gr-o">3</div><div class="l">Delegações nacionais</div></div>
+    </div>
+  </div>
+  <div class="s1-right">
+    <div class="s1-ring" style="width:540px;height:540px;border-color:rgba(200,150,12,0.07);"></div>
+    <div class="s1-ring" style="width:380px;height:380px;border-color:rgba(200,150,12,0.10);"></div>
+    <div class="s1-ring" style="width:220px;height:220px;border-color:rgba(200,150,12,0.14);"></div>
+    <div class="s1-ring" style="width:90px;height:90px;border-color:rgba(200,150,12,0);background:radial-gradient(circle,rgba(200,150,12,0.3) 0%,transparent 70%);box-shadow:0 0 50px rgba(200,150,12,0.25);"></div>
+    <div class="s1-icons-col" style="margin-left:40px;">
+      <div class="s1-ic"><span class="em">🌿</span>Eco Resorts &amp; Turismo <div class="dot-v"></div></div>
+      <div class="s1-ic"><span class="em">🏭</span>Filtração Industrial <div class="dot-b"></div></div>
+      <div class="s1-ic"><span class="em">🌊</span>Dessalinização <div class="dot-b"></div></div>
+      <div class="s1-ic"><span class="em">🌧️</span>Águas Pluviais <div class="dot-v"></div></div>
+      <div class="s1-ic"><span class="em">♻️</span>ETAREs Biológicas <div class="dot-v"></div></div>
+      <div class="s1-ic"><span class="em">⚡</span>Desporto &amp; Água H₂ <div class="dot-o"></div></div>
+      <div class="s1-ic"><span class="em">🍽️</span>HORECA Specialist <div class="dot-o"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S2 — 25 ANOS ═══════════ -->
+<div class="slide" id="s2">
+  <div class="s2-left">
+    <div class="s2-aniversario">
+      <div class="big-n gr-o">25</div>
+      <div>
+        <div class="suffix">anos</div>
+        <div style="font-size:11px;color:var(--cinza);letter-spacing:1px;text-transform:uppercase;">2001 — 2026</div>
+      </div>
+    </div>
+    <p class="s2-subtitle">A CleanPur<sup style="font-size:9px;color:var(--ouro2)">®</sup> nasceu em junho de 2001 com uma missão simples: melhorar a qualidade de vida das pessoas através de água melhor. Hoje, um quarto de século depois, somos uma referência nacional com presença em três delegações e cobertura em todo o território.</p>
+    <div class="s2-valores">
+      <div class="s2-val"><div class="ico">🏆</div>Inovação, experiência e satisfação</div>
+      <div class="s2-val"><div class="ico">🔬</div>Diagnóstico rigoroso antes de cada solução</div>
+      <div class="s2-val"><div class="ico">♻️</div>Compromisso ambiental e sustentabilidade</div>
+      <div class="s2-val"><div class="ico">🤝</div>Parceria de longo prazo com os nossos clientes</div>
+    </div>
+  </div>
+  <div class="s2-right">
+    <h3>Uma história construída na água</h3>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">2001</div>
+        <div class="tl-body"><h4>Fundação em São João da Madeira</h4><p>Início das operações com foco no mercado doméstico e residencial.</p></div>
+        <div class="tl-dot"></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2006</div>
+        <div class="tl-body"><h4>Expansão para HORECA e indústria</h4><p>Alargamento do portfólio a hotéis, restaurantes e processos industriais.</p></div>
+        <div class="tl-dot"></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2012</div>
+        <div class="tl-body"><h4>Delegação Sul — Sesimbra</h4><p>Nova presença na região de Lisboa, Setúbal e Alentejo.</p></div>
+        <div class="tl-dot"></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2018</div>
+        <div class="tl-body"><h4>Delegação Centro — Caldas da Rainha</h4><p>Reforço da cobertura no Centro, Ribatejo e Oeste.</p></div>
+        <div class="tl-dot"></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2023</div>
+        <div class="tl-body"><h4>Água com Hidrogénio &amp; Eco Soluções</h4><p>Novas verticais: H₂, eco resorts, dessalinização e ETAREs biológicas.</p></div>
+        <div class="tl-dot"></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2026</div>
+        <div class="tl-body"><h4>25 anos de excelência — Cleanpur Jubileu</h4><p>Edição comemorativa e nova linha de soluções premium para todos os segmentos.</p></div>
+        <div class="tl-dot"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S3 — PORTFÓLIO OVERVIEW ═══════════ -->
+<div class="slide" id="s3">
+  <div class="top">
+    <span class="tag tag-o">Portfólio Completo</span>
+    <div class="h2" style="color:#fff;margin-top:14px;">Sete verticais. <span class="gr-o">Uma empresa de confiança.</span></div>
+  </div>
+  <div class="porto">
+    <div class="porto-c pc-v"><span class="ico">🌿</span><div class="num">01</div><div class="ttl">Eco Resorts &amp; Turismo</div><div class="glow" style="background:var(--verde)"></div></div>
+    <div class="porto-c pc-b"><span class="ico">🏭</span><div class="num">02</div><div class="ttl">Filtração Industrial</div><div class="glow" style="background:var(--azul2)"></div></div>
+    <div class="porto-c pc-b"><span class="ico">🌊</span><div class="num">03</div><div class="ttl">Dessalinização</div><div class="glow" style="background:var(--azul2)"></div></div>
+    <div class="porto-c pc-v"><span class="ico">🌧️</span><div class="num">04</div><div class="ttl">Águas Pluviais</div><div class="glow" style="background:var(--verde)"></div></div>
+    <div class="porto-c pc-v"><span class="ico">♻️</span><div class="num">05</div><div class="ttl">ETAREs Biológicas</div><div class="glow" style="background:var(--verde)"></div></div>
+    <div class="porto-c pc-o"><span class="ico">⚡</span><div class="num">06</div><div class="ttl">Desporto &amp; Água H₂</div><div class="glow" style="background:var(--ouro2)"></div></div>
+    <div class="porto-c pc-o"><span class="ico">🍽️</span><div class="num">07</div><div class="ttl">HORECA Specialist</div><div class="glow" style="background:var(--ouro2)"></div></div>
+  </div>
+</div>
+
+<!-- ═══════════ S4 — ECO RESORTS ═══════════ -->
+<div class="slide" id="s4">
+  <div class="eco-l">
+    <span class="tag">01 — Eco Resorts</span>
+    <div class="h2" style="margin-top:18px;">Água<br>autónoma<br><span class="gr-v">para natureza</span></div>
+    <p class="body" style="margin-top:12px;">Sistemas completos de captação, tratamento e distribuição de água com pegada ambiental mínima — para resorts fora da rede pública.</p>
+    <div class="eco-checks">
+      <div class="eco-ch"><span class="ck">✓</span>Zero dependência da rede pública</div>
+      <div class="eco-ch"><span class="ck">✓</span>Integração com energia solar / renovável</div>
+      <div class="eco-ch"><span class="ck">✓</span>Monitorização remota dos parâmetros</div>
+      <div class="eco-ch"><span class="ck">✓</span>Reutilização de águas cinzentas e pluviais</div>
+      <div class="eco-ch"><span class="ck">✓</span>ETARE compacta no próprio local</div>
+    </div>
+  </div>
+  <div class="eco-r">
+    <div class="sub">Soluções integradas</div>
+    <div class="eco-grid">
+      <div class="eco-c"><span class="ec">💧</span><h4>Poço / Furo</h4><p>Desferrização, descalcificação e UV para captação própria.</p></div>
+      <div class="eco-c"><span class="ec">🌧️</span><h4>Aproveitamento Pluvial</h4><p>Captação e filtragem da chuva para rega e usos secundários.</p></div>
+      <div class="eco-c"><span class="ec">♻️</span><h4>Águas Cinzentas</h4><p>Tratamento para rega de jardins e descargas sanitárias.</p></div>
+      <div class="eco-c"><span class="ec">🌿</span><h4>ETARE Biológica</h4><p>Tratamento das residuais no local com descarga segura na natureza.</p></div>
+      <div class="eco-c"><span class="ec">📊</span><h4>Monitorização Smart</h4><p>Sensores de qualidade com alertas em tempo real para gestão.</p></div>
+      <div class="eco-c"><span class="ec">☀️</span><h4>Bombagem Solar</h4><p>Sistemas adaptativos a energia fotovoltaica para autonomia total.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S5 — FILTRAÇÃO INDUSTRIAL ═══════════ -->
+<div class="slide" id="s5">
+  <div class="top" style="margin-bottom:0;">
+    <span class="tag tag-b">02 — Filtração Industrial</span>
+    <div class="h2" style="color:#fff;margin-top:12px;">Água tratada <span class="gr-b">na linha de produção</span></div>
+  </div>
+  <div class="fi-row">
+    <div class="fi-c"><div class="fi-top" style="background:linear-gradient(90deg,var(--azul2),transparent)"></div><span class="ico">🔩</span><h4>Desferrização &amp; Desmanganização</h4><p>Katalox Light e Zeosorb para remoção de ferro e manganês. Protege tubagens e equipamentos.</p></div>
+    <div class="fi-c"><div class="fi-top" style="background:linear-gradient(90deg,var(--verde),transparent)"></div><span class="ico">🧊</span><h4>Descalcificação Industrial</h4><p>Sistemas contra-corrente de alto caudal. Prolonga a vida dos equipamentos térmicos e reduz energia.</p></div>
+    <div class="fi-c"><div class="fi-top" style="background:linear-gradient(90deg,var(--azul2),transparent)"></div><span class="ico">🦠</span><h4>Desinfeção &amp; Esterilização</h4><p>UV de alta potência e cloragem automática. Conformidade HACCP e normas farmacêuticas.</p></div>
+    <div class="fi-c"><div class="fi-top" style="background:linear-gradient(90deg,var(--verde),transparent)"></div><span class="ico">🔬</span><h4>Osmose Reversa Industrial</h4><p>Água ultrapura para indústria alimentar, farmacêutica e eletrónica — condutividade ultra-baixa.</p></div>
+  </div>
+  <div class="fi-b-row">
+    <div class="fi-banner"><div class="em">⚡</div><div><h4>Análise antes da solução</h4><p>Cada sistema é dimensionado após análise laboratorial real.</p></div></div>
+    <div class="fi-banner"><div class="em">🔧</div><div><h4>Manutenção preventiva</h4><p>Contratos com visitas periódicas e relatórios técnicos.</p></div></div>
+    <div class="fi-banner"><div class="em">📋</div><div><h4>Documentação completa</h4><p>Fichas técnicas, esquemas e registo para auditorias.</p></div></div>
+  </div>
+</div>
+
+<!-- ═══════════ S6 — DESSALINIZAÇÃO ═══════════ -->
+<div class="slide" id="s6">
+  <div class="desal-l">
+    <span class="tag tag-b">03 — Dessalinização</span>
+    <div class="h2" style="margin-top:18px;">Do mar<br>à torneira.</div>
+    <p class="body" style="margin-top:12px;margin-bottom:24px;">Osmose reversa de alta pressão para converter água do mar ou salobre em água potável ou industrial de qualidade certificada.</p>
+    <div class="desal-flow">
+      <div class="df-step"><div class="n">01</div><div class="t">Pré-filtração de sólidos e turbidez</div></div>
+      <div class="df-step"><div class="n">02</div><div class="t">Membranas de osmose reversa (RO)</div></div>
+      <div class="df-step"><div class="n">03</div><div class="t">Remineralização controlada</div></div>
+      <div class="df-step"><div class="n">04</div><div class="t">Desinfeção UV final</div></div>
+      <div class="df-step"><div class="n">05</div><div class="t">Armazenamento e distribuição</div></div>
+    </div>
+  </div>
+  <div class="desal-r">
+    <div style="font-size:11px;color:var(--cinza);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:10px;">Parâmetros de referência</div>
+    <div class="param-g">
+      <div class="param"><div class="v">&gt;98%</div><div class="l">Rejeição de sal</div></div>
+      <div class="param"><div class="v">&lt;500</div><div class="l">TDS mg/L tratado</div></div>
+      <div class="param"><div class="v">24/7</div><div class="l">Operação contínua</div></div>
+      <div class="param"><div class="v">RO</div><div class="l">Tecnologia de membranas</div></div>
+    </div>
+    <div style="font-size:11px;color:var(--cinza);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin:14px 0 10px;">Aplicações</div>
+    <div class="apps">
+      <div class="app-i"><span style="font-size:16px;">🏝️</span>Ilhas e zonas costeiras sem água doce</div>
+      <div class="app-i"><span style="font-size:16px;">🏨</span>Resorts e hotéis em localizações remotas</div>
+      <div class="app-i"><span style="font-size:16px;">🏭</span>Indústria de baixa condutividade</div>
+      <div class="app-i"><span style="font-size:16px;">🚢</span>Embarcações e infraestruturas marítimas</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S7 — ÁGUAS PLUVIAIS ═══════════ -->
+<div class="slide" id="s7">
+  <div class="top" style="margin-bottom:0;">
+    <span class="tag">04 — Aproveitamento de Águas Pluviais</span>
+    <div class="h2" style="color:#fff;margin-top:12px;">A chuva como <span class="gr-v">recurso estratégico</span></div>
+  </div>
+  <div class="rain-lay">
+    <div class="rain-flow">
+      <div class="rs"><div class="rs-ico">🌧️</div><div class="rs-body"><h4>Captação em cobertura</h4><p>Caleiras e superfícies impermeáveis encaminham água para reservatório enterrado ou elevado.</p></div></div>
+      <div class="rs"><div class="rs-ico">🪣</div><div class="rs-body"><h4>Desvio de primeiras águas</h4><p>As primeiras águas que arrastam contaminantes são desviadas automaticamente.</p></div></div>
+      <div class="rs"><div class="rs-ico">🔬</div><div class="rs-body"><h4>Filtragem fina e desinfeção UV</h4><p>Filtros de cartucho, carvão ativado e UV para água com qualidade garantida.</p></div></div>
+      <div class="rs"><div class="rs-ico">💧</div><div class="rs-body"><h4>Armazenamento e distribuição</h4><p>Reservatórios dimensionados para autonomia máxima com bombagem automática.</p></div></div>
+    </div>
+    <div class="rain-r">
+      <div class="rain-stat v"><div class="big">50%</div><div class="lbl">Redução potencial no consumo de água potável</div></div>
+      <div class="rain-stat b"><div class="big">900mm</div><div class="lbl">Precipitação média anual em Portugal</div></div>
+      <div class="gc-o gc" style="padding:16px 18px;">
+        <div style="font-size:11px;color:var(--ouro2);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Usos principais</div>
+        <div style="display:flex;flex-direction:column;gap:7px;">
+          <div style="font-size:12.5px;color:rgba(255,255,255,0.75);display:flex;gap:8px;align-items:center;"><span>🌱</span>Rega agrícola e jardins</div>
+          <div style="font-size:12.5px;color:rgba(255,255,255,0.75);display:flex;gap:8px;align-items:center;"><span>🚿</span>Descargas de autoclismos</div>
+          <div style="font-size:12.5px;color:rgba(255,255,255,0.75);display:flex;gap:8px;align-items:center;"><span>🏭</span>Lavagens industriais e de frota</div>
+          <div style="font-size:12.5px;color:rgba(255,255,255,0.75);display:flex;gap:8px;align-items:center;"><span>🏊</span>Piscinas e lagos artificiais</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S8 — ETAREs BIOLÓGICAS ═══════════ -->
+<div class="slide" id="s8">
+  <div class="et-l">
+    <span class="tag">05 — ETAREs Biológicas</span>
+    <div class="h2" style="margin-top:18px;">Resíduos<br>tratados no<br><span class="gr-v">próprio local</span></div>
+    <p class="body" style="margin-top:12px;">Estações modulares de tratamento biológico para resorts, indústria e aglomerados sem acesso à rede de saneamento.</p>
+    <div class="et-bens">
+      <div class="et-b"><span style="font-size:14px;">✅</span>Conformidade com limites legais de descarga</div>
+      <div class="et-b"><span style="font-size:14px;">🌿</span>Descarga segura em linha de água ou infiltração</div>
+      <div class="et-b"><span style="font-size:14px;">📦</span>Instalação modular — sem grandes obras</div>
+      <div class="et-b"><span style="font-size:14px;">🔋</span>Baixo consumo energético</div>
+      <div class="et-b"><span style="font-size:14px;">🤝</span>Apoio no licenciamento junto das entidades</div>
+    </div>
+  </div>
+  <div class="et-r">
+    <div class="sub">Processo de tratamento biológico</div>
+    <div class="ep"><div class="ep-badge v">🪣</div><div><h4>Tratamento Primário — Decantação</h4><p>Separação de sólidos e remoção de gorduras em câmaras de sedimentação.</p></div></div>
+    <div class="ep"><div class="ep-badge b">🦠</div><div><h4>Tratamento Biológico — Lamas Ativadas</h4><p>Microrganismos degradam matéria orgânica em condições aeróbias. CBO₅ reduzido em +95%.</p></div></div>
+    <div class="ep"><div class="ep-badge v">🔬</div><div><h4>Tratamento Secundário — Clarificação</h4><p>Separação das lamas biológicas do efluente tratado com recirculação controlada.</p></div></div>
+    <div class="ep"><div class="ep-badge o">☀️</div><div><h4>Desinfeção Final — UV ou Cloragem</h4><p>Eliminação de patogénicos antes da descarga ou reutilização em rega não-restrita.</p></div></div>
+    <div class="et-note"><span style="color:var(--verde);font-size:16px;">💡</span>O efluente tratado pode ser reutilizado em rega, reduzindo 30–40% no consumo de água doce.</div>
+  </div>
+</div>
+
+<!-- ═══════════ S9 — DESPORTO & H₂ ═══════════ -->
+<div class="slide" id="s9">
+  <div class="sp-l">
+    <span class="tag tag-o">06 — Desporto &amp; Performance</span>
+    <div class="h2-formula" style="margin-top:18px;">
+      <div class="formula">H₂</div>
+      <div class="label">Água Molecular<br>com Hidrogénio</div>
+    </div>
+    <div class="h2" style="color:#fff;margin-bottom:14px;">Hidratação de<br>elite para<br><span class="gr-o">alta performance</span></div>
+    <p class="body" style="margin-bottom:22px;">A água com hidrogénio molecular é o mais poderoso antioxidante natural. Neutraliza radicais livres produzidos durante o exercício intenso e acelera a recuperação muscular.</p>
+    <div class="sp-benefits">
+      <div class="sp-b"><span class="ic">⚡</span>Recuperação muscular pós-treino até 30% mais rápida</div>
+      <div class="sp-b"><span class="ic">🛡️</span>Neutralização de radicais livres — stress oxidativo</div>
+      <div class="sp-b"><span class="ic">💧</span>Hidratação celular superior à água convencional</div>
+      <div class="sp-b"><span class="ic">🧬</span>Redução de inflamação e fadiga muscular</div>
+      <div class="sp-b"><span class="ic">🏆</span>Adotada por atletas e centros de alto rendimento</div>
+    </div>
+  </div>
+  <div class="sp-r">
+    <div class="sub">Aplicações no mundo do desporto</div>
+    <div class="sp-cards">
+      <div class="sp-c a"><span class="ico">🏟️</span><h4>Estádios e Pavilhões</h4><p>Sistemas de produção centralizada de água H₂ para toda a instalação desportiva.</p></div>
+      <div class="sp-c a"><span class="ico">🏋️</span><h4>Ginásios &amp; Centros Fitness</h4><p>Dispensadores de água com hidrogénio no balneário e zona de treino.</p></div>
+      <div class="sp-c"><span class="ico">🏊</span><h4>Piscinas &amp; Natação</h4><p>Tratamento e qualidade da água de piscinas de competição e reabilitação.</p></div>
+      <div class="sp-c"><span class="ico">🏥</span><h4>Medicina Desportiva</h4><p>Água H₂ em clínicas de recuperação, fisioterapia e centros de saúde desportiva.</p></div>
+    </div>
+    <div class="ppb-bar">
+      <div class="left"><h4>Concentração de H₂ nos nossos sistemas</h4><p>Tecnologia PEM — Polymer Electrolyte Membrane</p></div>
+      <div class="right">1.500<br><span>a 8.000 PPB</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S10 — HORECA ═══════════ -->
+<div class="slide" id="s10">
+  <div class="ho-l">
+    <span class="tag tag-o">07 — HORECA Specialist</span>
+    <div class="h2" style="margin-top:18px;">Água perfeita<br>para a<br><span class="gr-o">experiência gourmet</span></div>
+    <p class="body" style="margin-top:12px;margin-bottom:22px;">Na restauração e hotelaria de excelência, a água define o sabor do café, a textura dos pratos e a durabilidade dos equipamentos. A CleanPur® é especialista neste segmento há 25 anos.</p>
+    <div class="ho-selos">
+      <div class="ho-selo">☕ Café</div>
+      <div class="ho-selo">🍳 Cozinha</div>
+      <div class="ho-selo">🧊 Gelo</div>
+      <div class="ho-selo">🥂 Lava-Copos RO</div>
+      <div class="ho-selo">🏨 Hotelaria</div>
+      <div class="ho-selo">✅ HACCP</div>
+    </div>
+  </div>
+  <div class="ho-r">
+    <div class="sub">Soluções para hotelaria e restauração</div>
+    <div class="ho-grid">
+      <div class="ho-c">
+        <span class="ic">☕</span>
+        <h4>Água ideal para café e infusões</h4>
+        <p>TDS e dureza otimizados para extração de espresso perfeita em máquinas La Marzocco, Victoria Arduino e outras.</p>
+        <div class="badge-tds">TDS ideal: 80–150 mg/L</div>
+      </div>
+      <div class="ho-c">
+        <span class="ic">🧊</span>
+        <h4>Desinfeção de sistemas de gelo</h4>
+        <p>Controlo bacteriológico e filtragem de linha para produtores de gelo. Gelo cristalino e sem odores.</p>
+      </div>
+      <div class="ho-c">
+        <span class="ic">🍳</span>
+        <h4>Água pura para cozinha profissional</h4>
+        <p>Água sem cloro, sem ferro e com dureza controlada para pastelaria, confeitaria, sopas e molhos de qualidade.</p>
+      </div>
+      <div class="ho-c">
+        <span class="ic">⚙️</span>
+        <h4>Proteção de equipamentos</h4>
+        <p>Descalcificação que prolonga a vida de fornos a vapor, lava-loiças industriais, caldeiras e máquinas de café.</p>
+      </div>
+      <div class="ho-c">
+        <span class="ic">🦠</span>
+        <h4>Controlo de Legionella</h4>
+        <p>Sistemas de desinfeção certificados para redes de água quente sanitária. Conformidade legal e segurança dos hóspedes.</p>
+      </div>
+      <div class="ho-c">
+        <span class="ic">🏊</span>
+        <h4>Piscinas e Spas de Hotel</h4>
+        <p>Tratamento completo de água recreativa — filtração, equilíbrio químico e desinfeção para uma experiência premium.</p>
+      </div>
+      <div class="ho-c" style="border-color:rgba(0,144,245,0.22);background:rgba(0,144,245,0.04);grid-column:span 2;">
+        <span class="ic">🥂</span>
+        <h4>Máquinas de Lavar Copos — Osmose Inversa</h4>
+        <p>A osmose inversa elimina os minerais responsáveis pelas manchas brancas em copos, taças e talheres. A água tratada por RO permite secar sem deixar resíduos calcários visíveis — resultado impecável na louça, sem produtos químicos extras e com redução significativa do consumo de detergente e abrillantador. Prolonga ainda a vida útil da máquina ao evitar incrustações nas resistências e bicos de lavagem.</p>
+        <div class="badge-tds" style="color:var(--azul2);background:rgba(0,144,245,0.1);border-color:rgba(0,144,245,0.25);margin-top:8px;">TDS ideal saída RO: &lt; 20 mg/L &nbsp;·&nbsp; Dureza: 0 mg/L CaCO₃ &nbsp;·&nbsp; Resultado: copos sem manchas</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S11 — CLIENTES DE REFERÊNCIA ═══════════ -->
+<div class="slide" id="s11">
+  <div class="top">
+    <span class="tag tag-o">Referências</span>
+    <div class="h2" style="color:#fff;margin-top:12px;">Fazem <span class="gr-o">confiança</span> na CleanPur<sup style="font-size:16px;color:var(--ouro2)">®</sup></div>
+    <p>Clientes de referência nos principais setores que servimos — desporto, hotelaria, restauração e indústria.</p>
+  </div>
+  <div class="clients-row">
+    <div>
+      <div class="client-sector-label">🏆 Desporto &amp; Alta Performance</div>
+      <div class="clients-band">
+        <div class="client-card cc-o">
+          <div class="cc-icon">🦁</div>
+          <div class="cc-name">Sporting Clube de Portugal</div>
+          <div class="cc-sector">Academia / Centro de Alto Rendimento</div>
+          <div class="cc-sol">Água H₂ · Filtração · Piscinas</div>
+        </div>
+        <div class="client-card cc-v">
+          <div class="cc-icon">🏋️</div>
+          <div class="cc-name">Holmes Place Portugal</div>
+          <div class="cc-sector">Rede de Ginásios Premium</div>
+          <div class="cc-sol">Descalcificação · Água H₂ · Piscinas</div>
+        </div>
+        <div class="client-card cc-b">
+          <div class="cc-icon">🏊</div>
+          <div class="cc-name">Federação Portuguesa de Natação</div>
+          <div class="cc-sector">Infraestrutura de Competição</div>
+          <div class="cc-sol">Tratamento de piscinas · Desinfeção</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="client-sector-label">🍽️ Restauração &amp; Hotelaria de Excelência</div>
+      <div class="clients-band">
+        <div class="client-card cc-o">
+          <div class="cc-icon">🦞</div>
+          <div class="cc-name">Marisqueira Ramiro</div>
+          <div class="cc-sector">Restaurante Centenário · Lisboa</div>
+          <div class="cc-sol">Filtragem · Proteção equipamentos</div>
+        </div>
+        <div class="client-card cc-o">
+          <div class="cc-icon">🌟</div>
+          <div class="cc-name">LUX Hotel Lisboa</div>
+          <div class="cc-sector">Hotelaria de Luxo · Parque das Nações</div>
+          <div class="cc-sol">Descalcificação · Legionella · Spa</div>
+        </div>
+        <div class="client-card cc-v">
+          <div class="cc-icon">🏨</div>
+          <div class="cc-name">Bairro Alto Hotel</div>
+          <div class="cc-sector">Boutique Hotel 5★ · Lisboa</div>
+          <div class="cc-sol">Água para café · Proteção caldeiras</div>
+        </div>
+        <div class="client-card cc-b">
+          <div class="cc-icon">🍽️</div>
+          <div class="cc-name">Belcanto · José Avillez</div>
+          <div class="cc-sector">Restaurante ★★ Michelin · Lisboa</div>
+          <div class="cc-sol">Água pura · Filtração profissional</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="client-sector-label">🏭 Indústria &amp; Agroindústria</div>
+      <div class="clients-band">
+        <div class="client-card cc-o">
+          <div class="cc-icon">🫒</div>
+          <div class="cc-name">Innoliva</div>
+          <div class="cc-sector">Produção de Azeite Premium</div>
+          <div class="cc-sol">Tratamento processo · Dessalinização</div>
+        </div>
+        <div class="client-card cc-v">
+          <div class="cc-icon">🍷</div>
+          <div class="cc-name">Herdade do Esporão</div>
+          <div class="cc-sector">Vinicultura &amp; Agroindústria</div>
+          <div class="cc-sol">ETAREs · Águas pluviais · Processo</div>
+        </div>
+        <div class="client-card cc-b">
+          <div class="cc-icon">☕</div>
+          <div class="cc-name">Grupo Delta Cafés</div>
+          <div class="cc-sector">Indústria Alimentar</div>
+          <div class="cc-sol">Osmose reversa · Água ultrapura</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="clients-bottom">
+    <span class="ic">🏆</span>
+    25 anos a servir os melhores clientes de Portugal — em cada setor, a qualidade da água faz a diferença.
+  </div>
+</div>
+
+<!-- ═══════════ S12 — PORQUÊ CLEANPUR ═══════════ -->
+<div class="slide" id="s12">
+  <div class="top">
+    <span class="tag tag-o">A nossa diferença</span>
+    <div class="h2" style="color:#fff;margin-top:12px;">Porquê a <span class="gr-o">CleanPur<sup style="font-size:18px;">®</sup></span>?</div>
+  </div>
+  <div class="why-g">
+    <div class="wc v"><div class="bar"></div><span class="ico">🔬</span><h4>Diagnóstico antes de tudo</h4><p>Cada projeto começa com análise laboratorial. Propomos apenas o que os dados confirmam — nada a mais, nada a menos.</p></div>
+    <div class="wc o"><div class="bar"></div><span class="ico">🏆</span><h4>25 anos de excelência</h4><p>Desde 2001 a tratar água em todos os contextos. Uma história construída projeto a projeto, cliente a cliente.</p></div>
+    <div class="wc b"><div class="bar"></div><span class="ico">🗺️</span><h4>Cobertura nacional</h4><p>Três delegações e equipas técnicas próprias a cobrir todos os 19 distritos de Portugal continental.</p></div>
+    <div class="wc o"><div class="bar"></div><span class="ico">⚙️</span><h4>Soluções à medida</h4><p>Sem pacotes standard. Cada sistema é dimensionado para o caudal, qualidade da água e necessidades reais.</p></div>
+    <div class="wc v"><div class="bar"></div><span class="ico">♻️</span><h4>Foco em sustentabilidade</h4><p>Equipamentos de eficiência hídrica e energética que minimizam o desperdício e apoiam metas ambientais.</p></div>
+    <div class="wc b"><div class="bar"></div><span class="ico">🤝</span><h4>Parceria permanente</h4><p>Não desaparecemos após a instalação. Manutenção preventiva, análises periódicas, suporte contínuo.</p></div>
+  </div>
+</div>
+
+<!-- ═══════════ S13 — CONTACTO ═══════════ -->
+<div class="slide" id="s13">
+  <div class="s13-orb s13-o1"></div>
+  <div class="s13-orb s13-o2"></div>
+  <div class="s13-orb s13-o3"></div>
+  <div class="s13-brand">
+    <div class="mark">💧</div>
+    <div class="name">CLEANPUR<sup>®</sup></div>
+    <div style="width:1px;height:22px;background:var(--border);margin:0 6px;"></div>
+    <div style="font-size:11px;color:var(--cinza);">Tratamento de Água Profissional desde 2001</div>
+  </div>
+  <div class="s13-badge">⭐ 25 Anos · Líderes Nacionais em Tratamento de Água</div>
+  <div class="h2" style="margin-bottom:10px;">Vamos analisar a sua<br>água <span class="gr-o">gratuitamente.</span></div>
+  <p class="body" style="max-width:500px;text-align:center;margin-bottom:36px;">Diagnóstico laboratorial sem compromisso. Em 48 horas um especialista CleanPur® entra em contacto com a solução certa para o seu projeto.</p>
+  <div class="cc-row">
+    <div class="cc-card highlight">
+      <span class="ci">📞</span>
+      <div class="cl">Telefone</div>
+      <div class="cv">+351 913 360 989</div>
+    </div>
+    <div class="cc-card">
+      <span class="ci">✉️</span>
+      <div class="cl">Email</div>
+      <div class="cv">geral@cleanpur.pt</div>
+    </div>
+    <div class="cc-card">
+      <span class="ci">🌐</span>
+      <div class="cl">Website</div>
+      <div class="cv">cleanpur.pt</div>
+    </div>
+    <div class="cc-card">
+      <span class="ci">📍</span>
+      <div class="cl">Delegações</div>
+      <div class="cv">SJM · Caldas · Sesimbra</div>
+    </div>
+  </div>
+  <div class="s13-foot">Sede: Rua Dr. Sá Carneiro, 93 · São João da Madeira &nbsp;|&nbsp; <span>cleanpur.pt</span> &nbsp;|&nbsp; <span>geral@cleanpur.pt</span></div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- NAVEGAÇÃO -->
+<div class="nav">
+  <button onclick="go(-1)">← Anterior</button>
+  <div class="dots" id="dots"></div>
+  <span class="info" id="info">1 / 13</span>
+  <button onclick="go(1)">Seguinte →</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const dotsEl = document.getElementById('dots');
+const infoEl = document.getElementById('info');
+let cur = 0;
+
+slides.forEach((_,i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i===0?' on':'');
+  d.onclick = () => show(i);
+  dotsEl.appendChild(d);
+});
+
+function show(n) {
+  slides[cur].classList.remove('on');
+  dotsEl.children[cur].classList.remove('on');
+  cur = (n + slides.length) % slides.length;
+  slides[cur].classList.add('on');
+  dotsEl.children[cur].classList.add('on');
+  infoEl.textContent = (cur+1) + ' / ' + slides.length;
+}
+
+function go(d) { show(cur + d); }
+
+document.addEventListener('keydown', e => {
+  if (e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' ') { e.preventDefault(); go(1); }
+  if (e.key==='ArrowLeft'||e.key==='ArrowUp') { e.preventDefault(); go(-1); }
+});
+</script>
+</body>
+</html>
