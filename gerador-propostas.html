@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de Propostas · CleanPur®</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#EEF2F7;min-height:100vh;padding:24px;}
+.card{max-width:780px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.12);overflow:hidden;}
+.card-head{background:#1E3A5F;color:#fff;padding:24px 36px;display:flex;align-items:center;gap:16px;}
+.head-icon{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#00D4A0,#0095FF);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.head-title{font-size:17px;font-weight:700;}
+.head-sub{font-size:11px;color:rgba(255,255,255,.45);margin-top:2px;}
+.prog{background:#E8EFF7;padding:14px 36px;}
+.steps{display:flex;align-items:center;}
+.si{display:flex;align-items:center;gap:7px;flex:1;}
+.si:last-child{flex:0;}
+.sdot{width:26px;height:26px;border-radius:50%;border:2px solid #D0DDEF;background:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#bbb;flex-shrink:0;transition:all .2s;}
+.si.done .sdot{background:#00C28A;border-color:#00C28A;color:#fff;}
+.si.act .sdot{background:#1E3A5F;border-color:#1E3A5F;color:#fff;}
+.sline{flex:1;height:2px;background:#D0DDEF;margin:0 3px;}
+.si.done .sline{background:#00C28A;}
+.slbl{font-size:10px;color:#bbb;font-weight:600;white-space:nowrap;}
+.si.act .slbl{color:#1E3A5F;}
+.si.done .slbl{color:#00C28A;}
+.card-body{padding:28px 36px;}
+.panel{display:none;}.panel.act{display:block;}
+.ptitle{font-size:16px;font-weight:700;color:#111;margin-bottom:3px;}
+.psub{font-size:13px;color:#888;margin-bottom:20px;}
+.div{height:1px;background:#F0F0F0;margin:18px 0;}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fg3{grid-template-columns:1fr 1fr 1fr;}
+.fg1{grid-template-columns:1fr;}
+.f{display:flex;flex-direction:column;gap:5px;}
+.f label{font-size:10.5px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.7px;}
+.f input,.f select,.f textarea{padding:9px 12px;border:1.5px solid #E2E6EE;border-radius:8px;font-size:13.5px;font-family:inherit;color:#111;outline:none;transition:border .15s;}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:#1E3A5F;}
+.funit{font-size:11px;color:#aaa;margin-top:2px;}
+.rg{display:flex;gap:8px;flex-wrap:wrap;}
+.ro input{display:none;}.ro{cursor:pointer;}
+.rb{border:1.5px solid #E2E6EE;border-radius:8px;padding:9px 14px;font-size:12.5px;font-weight:600;color:#666;transition:all .15s;white-space:nowrap;display:block;}
+.ro input:checked+.rb{border-color:#1E3A5F;background:#EEF3FA;color:#1E3A5F;}
+.ibox{background:#EEF7FF;border:1.5px solid #B8D8F8;border-radius:8px;padding:11px 13px;font-size:12.5px;color:#1E3A5F;margin-bottom:14px;}
+.eql{display:flex;flex-direction:column;gap:7px;}
+.eqi{display:flex;align-items:center;gap:10px;padding:11px 13px;border:1.5px solid #E2E6EE;border-radius:8px;transition:all .15s;}
+.eqi.on{border-color:#1E3A5F;background:#F5F8FF;}
+.eqi input[type=checkbox]{width:16px;height:16px;accent-color:#1E3A5F;cursor:pointer;flex-shrink:0;}
+.eqlbl{font-size:13px;font-weight:600;color:#222;flex:1;}
+.eqsub{font-size:11px;color:#888;margin-top:1px;}
+.eqq{display:flex;align-items:center;gap:5px;}
+.eqq button{width:24px;height:24px;border:1.5px solid #E2E6EE;border-radius:5px;background:#fff;font-size:13px;cursor:pointer;}
+.eqq span{font-size:13px;font-weight:700;min-width:18px;text-align:center;}
+.btnadd{background:none;border:1.5px dashed #D0DDEF;border-radius:8px;width:100%;padding:9px;font-size:12.5px;color:#aaa;cursor:pointer;font-family:inherit;margin-top:7px;transition:all .15s;}
+.btnadd:hover{border-color:#1E3A5F;color:#1E3A5F;}
+.resumo{background:#F5F8FF;border:1.5px solid #D0DDEF;border-radius:10px;padding:14px;font-size:13px;}
+.card-foot{padding:18px 36px;border-top:1px solid #F0F0F0;display:flex;justify-content:space-between;align-items:center;}
+.btn{padding:10px 22px;border-radius:9px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;border:none;transition:all .15s;}
+.bbk{background:#F0F3F7;color:#555;}.bbk:hover{background:#E2E6EE;}
+.bnx{background:linear-gradient(135deg,#1E3A5F,#2D6AA0);color:#fff;}.bnx:hover{opacity:.88;}
+.bgen{background:linear-gradient(135deg,#00A87A,#0095FF);color:#fff;font-size:14.5px;padding:11px 28px;}
+.sctr{font-size:11.5px;color:#aaa;}
+</style>
+</head>
+<body>
+<div class="card">
+<div class="card-head">
+  <div class="head-icon">💧</div>
+  <div><div class="head-title">Gerador de Propostas</div><div class="head-sub">CleanPur® — Sistemas de Tratamento de Água</div></div>
+</div>
+<div class="prog"><div class="steps" id="sbar"></div></div>
+<div class="card-body">
+
+<!-- STEP 1 -->
+<div class="panel act" id="p1">
+  <div class="ptitle">Dados do Cliente</div><div class="psub">Identificação e origem da água</div>
+  <div class="fg fg1" style="margin-bottom:14px;"><div class="f"><label>Nome / Empresa *</label><input id="c-nome" placeholder="Ex: Empresa XPTO, Lda."></div></div>
+  <div class="fg">
+    <div class="f"><label>Nº de Cliente</label><input id="c-num" placeholder="Ex: CL2469"></div>
+    <div class="f"><label>Data</label><input type="date" id="c-data"></div>
+  </div>
+  <div class="fg fg1" style="margin-top:14px;"><div class="f"><label>Aplicação *</label>
+    <select id="c-aplic">
+      <option value="">— Selecionar —</option>
+      <option>Doméstico</option>
+      <option>HORECA — Restauração / Hotelaria</option>
+      <option>Industrial</option>
+      <option>Lavagem de Viaturas</option>
+      <option>Lavagem de Autocarros</option>
+      <option>Agrícola / Rega</option>
+      <option>Eco Resort / Turismo</option>
+      <option>Piscinas</option>
+      <option>Outro</option>
+    </select>
+  </div></div>
+  <div class="div"></div>
+  <div class="f" style="margin-bottom:10px;"><label>Origem da Água *</label></div>
+  <div class="rg">
+    <label class="ro"><input type="radio" name="orig" value="furo" checked><span class="rb">🔵 Furo / Poço</span></label>
+    <label class="ro"><input type="radio" name="orig" value="rede"><span class="rb">🏙️ Rede Pública</span></label>
+    <label class="ro"><input type="radio" name="orig" value="misto"><span class="rb">🔄 Mista</span></label>
+  </div>
+  <div class="fg fg1" style="margin-top:14px;"><div class="f"><label>Elaborado por</label><input id="c-elab" value="CleanPur — Engenharia de Tratamento de Água"></div></div>
+</div>
+
+<!-- STEP 2 -->
+<div class="panel" id="p2">
+  <div class="ptitle">Análise de Água</div><div class="psub">Parâmetros da análise laboratorial (deixa em branco o que não foi analisado)</div>
+  <div class="fg" style="margin-bottom:14px;">
+    <div class="f"><label>pH</label><input type="number" id="a-ph" step="0.1" placeholder="7.0"><div class="funit">Normal: 6,5 – 9,5</div></div>
+    <div class="f"><label>Ferro (Fe) mg/L</label><input type="number" id="a-fe" step="0.01" placeholder="0.00"><div class="funit">Limite: 0,25 mg/L</div></div>
+    <div class="f"><label>Manganês (Mn) mg/L</label><input type="number" id="a-mn" step="0.01" placeholder="0.00"><div class="funit">Limite: 0,05 mg/L</div></div>
+    <div class="f"><label>Dureza (CaCO₃) mg/L</label><input type="number" id="a-dur" step="1" placeholder="0"><div class="funit">Dura se &gt; 150 mg/L</div></div>
+    <div class="f"><label>Nitratos (NO₃) mg/L</label><input type="number" id="a-nit" step="0.1" placeholder="0"><div class="funit">Limite: 50 mg/L</div></div>
+    <div class="f"><label>TDS ppm</label><input type="number" id="a-tds" step="1" placeholder="0"></div>
+    <div class="f"><label>Condutividade µS/cm</label><input type="number" id="a-cond" step="1" placeholder="0"><div class="funit">OI se ≥ 1.700 µS/cm</div></div>
+    <div class="f"><label>Turvação NTU</label><input type="number" id="a-turv" step="0.1" placeholder="0"></div>
+  </div>
+  <div class="div"></div>
+  <div class="f" style="margin-bottom:10px;"><label>Contaminação Bacteriológica</label></div>
+  <div class="rg">
+    <label class="ro"><input type="radio" name="bact" value="ausente" checked><span class="rb">✅ Ausente</span></label>
+    <label class="ro"><input type="radio" name="bact" value="coliformes"><span class="rb">⚠️ Coliformes (baixa)</span></label>
+    <label class="ro"><input type="radio" name="bact" value="elevada"><span class="rb">🔴 Elevada</span></label>
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="panel" id="p3">
+  <div class="ptitle">Parâmetros do Sistema</div><div class="psub">Infraestrutura existente e caudais</div>
+  <div class="fg">
+    <div class="f"><label>Caudal do Furo / Rede * (m³/h)</label><input type="number" id="s-q" step="0.1" placeholder="1.5"></div>
+    <div class="f"><label>Caudal de Consumo (m³/h)</label><input type="number" id="s-qc" step="0.1" placeholder="Igual ao do furo"></div>
+  </div>
+  <div class="div"></div>
+  <div class="f" style="margin-bottom:9px;"><label>Depósito de Acumulação (água bruta)</label></div>
+  <div class="rg" style="margin-bottom:10px;">
+    <label class="ro"><input type="radio" name="dacu" value="nao" checked onchange="tog('acu',0)"><span class="rb">Não existe</span></label>
+    <label class="ro"><input type="radio" name="dacu" value="sim" onchange="tog('acu',1)"><span class="rb">Já existe</span></label>
+  </div>
+  <div id="vacu" style="display:none" class="fg"><div class="f"><label>Volume (L)</label><input type="number" id="s-avol" placeholder="1000"></div></div>
+  <div class="div"></div>
+  <div class="f" style="margin-bottom:9px;"><label>Depósito de Água Tratada</label></div>
+  <div class="rg" style="margin-bottom:10px;">
+    <label class="ro"><input type="radio" name="dtrat" value="nao" checked onchange="tog('trat',0)"><span class="rb">Não existe</span></label>
+    <label class="ro"><input type="radio" name="dtrat" value="sim" onchange="tog('trat',1)"><span class="rb">Já existe</span></label>
+  </div>
+  <div id="vtrat" style="display:none" class="fg"><div class="f"><label>Volume (L)</label><input type="number" id="s-tvol" placeholder="5000"></div></div>
+  <div class="div"></div>
+  <div class="f" style="margin-bottom:9px;"><label>Sistema de Bombagem</label></div>
+  <div class="rg">
+    <label class="ro"><input type="radio" name="bomba" value="nao" checked><span class="rb">Não existe — dimensionar</span></label>
+    <label class="ro"><input type="radio" name="bomba" value="sim"><span class="rb">Já existe</span></label>
+  </div>
+</div>
+
+<!-- STEP 4 -->
+<div class="panel" id="p4">
+  <div class="ptitle">Equipamentos</div><div class="psub">Dimensionamento automático — confirma e ajusta</div>
+  <div class="ibox" id="dim-info"></div>
+  <div class="eql" id="eql"></div>
+  <button class="btnadd" onclick="addManual()">+ Adicionar equipamento manualmente</button>
+</div>
+
+<!-- STEP 5 -->
+<div class="panel" id="p5">
+  <div class="ptitle">Valores e Condições</div><div class="psub">Informação final da proposta</div>
+  <div class="fg">
+    <div class="f"><label>Valor (€ + IVA) *</label><input id="p-val" placeholder="Ex: 4.850,00"></div>
+    <div class="f"><label>Validade</label><input id="p-valid" value="30 dias"></div>
+    <div class="f"><label>Prazo de Entrega</label><input id="p-prazo" value="A confirmar em caso de adjudicação"></div>
+    <div class="f"><label>Condições de Pagamento</label><input id="p-pag" value="50% adjudicação; restante no final da montagem"></div>
+  </div>
+  <div class="div"></div>
+  <div class="fg fg1"><div class="f"><label>Observações adicionais</label><textarea id="p-obs" rows="3" placeholder="Notas específicas para esta proposta..."></textarea></div></div>
+  <div class="div"></div>
+  <div class="resumo" id="resumo"></div>
+</div>
+
+</div><!-- /card-body -->
+<div class="card-foot">
+  <button class="btn bbk" id="bbk" onclick="nav(-1)" style="visibility:hidden">← Anterior</button>
+  <span class="sctr" id="sctr"></span>
+  <button class="btn bnx" id="bnx" onclick="nav(1)">Seguinte →</button>
+</div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// EQUIPMENT LIBRARY
+// ══════════════════════════════════════════════
+function kBase(c,d,a,q,v){return{nome:`Filtro Automático Katalox Light — Coluna ${c}`,sub:`Deférrização e remoção de manganês — ${q} m³/h`,desc:`O filtro automático com leito de Katalox Light remove ferro e manganês da água por oxidação catalítica. Indicado para águas sem dureza significativa. A válvula automática efetua retrolavagem periódica sem intervenção manual.`,specs:{'Coluna':`${c} (Ø${d}mm × ${a}mm)`,'Média filtrante':'Katalox Light','Parâmetros tratados':'Ferro, Manganês','Caudal de serviço':`${q} m³/h`,'Válvula':v,'Pressão de trabalho':'2–6 bar','Alimentação':'220 V / 50 Hz'},consumivel:''};}
+function eBase(c,d,a,q,v){return{nome:`Filtro Automático Ecomix — Coluna ${c}`,sub:`Ferro, manganês e dureza — ${q} m³/h`,desc:`O filtro automático com leito de Ecomix trata simultaneamente ferro, manganês e dureza numa única coluna. Exige pré-filtração com Zeosorb ou housing de cartuchos antes da coluna.`,specs:{'Coluna':`${c} (Ø${d}mm × ${a}mm)`,'Média filtrante':'Ecomix','Parâmetros tratados':'Ferro, Manganês, Dureza','Caudal de serviço':`${q} m³/h`,'Válvula':v,'Pré-filtração':'Obrigatória (Zeosorb ou housing)','Pressão de trabalho':'2–6 bar'},consumivel:''};}
+function zBase(c,q){return{nome:`Coluna de Pré-filtração Zeosorb — ${c}`,sub:'Filtração de sedimentos — pré-tratamento',desc:`Coluna automática com média Zeosorb para remoção de sedimentos e turvação. Instalada antes de colunas Ecomix ou resinas. Retrolavagem automática programável.`,specs:{'Coluna':c,'Média filtrante':'Zeosorb','Caudal':`${q} m³/h`,'Função':'Pré-filtração sedimentos'},consumivel:''};}
+
+const EQ = {};
+EQ['dep_500']={nome:'Depósito PEAD 500 L',sub:'Armazenamento de água',desc:'Depósito vertical em PEAD 100% virgem, aprovado para contacto com água de consumo. Resistente a UV.',specs:{Volume:'500 L',Material:'PEAD 100% virgem',Tipo:'Vertical'},consumivel:''};
+EQ['dep_1000']={nome:'Depósito PEAD 1.000 L',sub:'Depósito de acumulação — água bruta',desc:'Depósito em PEAD 100% virgem que recebe a água da captação e regulariza o caudal de alimentação ao sistema de tratamento. Inerte, resistente a UV, aprovado para consumo humano.',specs:{Volume:'1.000 L',Material:'PEAD 100% virgem',Tipo:'Vertical','Diâmetro':'1.180 mm','Altura':'1.015 mm'},tabela:[['Volume (L)','Diâmetro (mm)','Altura (mm)'],['500','900','920'],['★ 1.000','1.180','1.015'],['2.000','1.180','1.630']],consumivel:''};
+EQ['dep_2000']={nome:'Depósito PEAD 2.000 L',sub:'Armazenamento',desc:'Depósito em PEAD 100% virgem, 2.000 L. Inerte, resistente a UV.',specs:{Volume:'2.000 L',Material:'PEAD 100% virgem',Tipo:'Vertical'},consumivel:''};
+EQ['dep_5000']={nome:'Depósito PEAD 5.000 L (Puffo Baixo)',sub:'Depósito de água tratada',desc:'Depósito de 5.000 L em PEAD 100% virgem. Modelo Puffo Baixo (perfil compacto) para espaços com altura limitada — passa em portas com largura máxima de 680 mm.',specs:{Volume:'5.000 L',Material:'PEAD 100% virgem',Tipo:'Vertical — Puffo Baixo','Diâmetro':'2.068 mm','Altura':'2.000 mm'},tabela:[['Volume (L)','Diâmetro (mm)','Altura (mm)'],['3.000','1.700','1.728'],['4.500','1.700','2.478'],['★ 5.000','2.068','2.000'],['6.500','2.068','2.505']],consumivel:''};
+EQ['mini_easybox']={nome:'Mini Easy Box — Pressurização (Filtração)',sub:'Bomba eletrónica de pressão constante',desc:'Pressuriza o circuito de filtração a partir do depósito de acumulação. Variador de velocidade integrado. Proteção contra marcha em seco, sobrecarga e sobrepressão.',specs:{Tipo:'Bomba eletrónica centrífuga com variador','Pressão':'Ajustável 1–8 bar','Caudal máx':'3 m³/h','Temperatura máx':'35 °C',Alimentação:'220–240 V / 50 Hz'},consumivel:''};
+EQ['easy_box']={nome:'Easy Box — Pressurização (Consumo)',sub:'Bomba eletrónica de pressão constante',desc:'Pressuriza a linha de consumo a partir do depósito de água tratada. Variador de velocidade integrado, proteção contra marcha em seco.',specs:{Tipo:'Bomba eletrónica centrífuga com variador','Pressão':'Ajustável','Temperatura máx':'35 °C',Alimentação:'220–240 V / 50 Hz'},consumivel:''};
+EQ['prefiltro']={nome:'Pré-filtro de Sedimentos',sub:'Filtração mecânica — proteção a jusante',desc:'Remove partículas em suspensão antes dos equipamentos principais. Indispensável para eficácia da UV e vida útil das colunas e membranas. Cartucho substituível sem ferramentas.',specs:{Tipo:'Filtro cartucho polipropileno','Filtração':'5 µm','Pressão máx':'8 bar','Temperatura máx':'50 °C'},consumivel:'Cartucho 5 µm: ~21,50 € + IVA. Substituição a cada 3 meses.'};
+EQ['uv_55']={nome:'Desinfeção UV 55 W',sub:'Desinfeção UV-C sem químicos',desc:'Elimina bactérias, vírus e fungos por radiação UV-C. Sem resíduos químicos na água. Câmara em aço AISI 304.',specs:{Potência:'55 W',Corpo:'Aço AISI 304','Caudal máx':'2,5 m³/h','Ligações':'3/4" ou 1"','Vida lâmpada':'9.000 horas',Alimentação:'220 V / 50 Hz'},consumivel:'Substituição anual da lâmpada.'};
+EQ['uv_85']={nome:'Desinfeção UV 85 W',sub:'Desinfeção UV-C sem químicos',desc:'Elimina bactérias, vírus e fungos por radiação UV-C. Sem resíduos químicos. Câmara em aço AISI 304.',specs:{Potência:'85 W',Corpo:'Aço AISI 304','Caudal máx':'10 m³/h','Ligações':'1½"','Dimensões':'Ø108 × 950 mm','Vida lâmpada':'9.000 horas',Alimentação:'220 V / 50 Hz'},consumivel:'Substituição anual da lâmpada.'};
+EQ['katalox_1054']=kBase('1054','254','1.370','1,30','K67B1 — CRO 1"');
+EQ['katalox_1252']=kBase('1252','305','1.320','1,89','K67B1 — CRO 1"');
+EQ['katalox_1354']=kBase('1354','337','1.370','2,66','K67B3 — VOL 1"');
+EQ['katalox_1465']=kBase('1465','362','1.650','3,09','K67B3 — VOL 1"');
+EQ['katalox_1665']=kBase('1665','406','1.650','3,88','K134A3 — VOL 1½"');
+EQ['ecomix_1054']=eBase('1054','254','1.370','1,30','K67B1 — CRO 1"');
+EQ['ecomix_1252']=eBase('1252','305','1.320','1,89','K67B1 — CRO 1"');
+EQ['ecomix_1354']=eBase('1354','337','1.370','2,66','K67B3 — VOL 1"');
+EQ['ecomix_1465']=eBase('1465','362','1.650','3,09','K67B3 — VOL 1"');
+EQ['ecomix_1665']=eBase('1665','406','1.650','3,88','K134A3 — VOL 1½"');
+EQ['zeosorb_1054']=zBase('1054','1,30');
+EQ['zeosorb_1252']=zBase('1252','1,89');
+EQ['zeosorb_1354']=zBase('1354','2,66');
+EQ['zeosorb_1465']=zBase('1465','3,09');
+EQ['resina_cat']={nome:'Coluna Automática — Resina Catiónica (Descalcificação)',sub:'Amaciamento por troca iónica — água de furo',desc:'Remove dureza (cálcio e magnésio) por troca iónica, substituindo-os por sódio. Regeneração automática com sal (NaCl).',specs:{Média:'Resina catiónica forte (Na⁺)',Regenerante:'Cloreto de sódio (NaCl)',Válvula:'Automática programável'},consumivel:'Sal de regeneração — blocos ou granulado.'};
+EQ['resina_desnit']={nome:'Coluna Automática — Resina de Desnitrificação',sub:'Remoção de nitratos por troca iónica',desc:'Remove nitratos acima de 50 mg/L por troca iónica seletiva. Regeneração automática com NaCl.',specs:{Média:'Resina aniónica seletiva para nitratos',Regenerante:'NaCl'},consumivel:'Sal de regeneração.'};
+EQ['resina_lm']={nome:'Coluna — Resina de Leito Misto (Desmineralização)',sub:'Desmineralização total da água',desc:'Combina resina catiónica e aniónica para produzir água totalmente desmineralizada com condutividade < 10 µS/cm.',specs:{Média:'Resina catiónica + aniónica (leito misto)','Saída':'Condutividade < 10 µS/cm'},consumivel:''};
+EQ['acitrap']={nome:'Coluna Automática — Acitrap (Correção de pH)',sub:'Neutralização de pH ácido',desc:'Corrige pH ácido (< 6,5) por dissolução controlada de calcário granulado Acitrap. Processo passivo, sem químicos.',specs:{Média:'Acitrap (calcário granulado)',Aplicação:'pH ácido < 6,5',Válvula:'Automática com retrolavagem'},consumivel:'Reposição periódica da média Acitrap.'};
+EQ['anti_crust']={nome:'Posto de Dosagem Anti-Crustante',sub:'Proteção das membranas de osmose inversa',desc:'Injeta solução anti-incrustante proporcional ao caudal antes das membranas de osmose. Impede depósito de carbonato de cálcio quando a dureza é elevada.',specs:{Tipo:'Bomba doseadora peristáltica','Concentração':'5% anti-crustante','Depósito':'50 L PEAD',Controlo:'Proporcional ao caudal',Alimentação:'220 V / 50 Hz'},consumivel:'Anti-crustante bilha 25 L: ~205 € + IVA / ano.'};
+EQ['oi_ecosoft_250']={nome:'Osmose Inversa 250 L/h — Ecosoft',sub:'Purificação por membranas (até ~4.000 ppm TDS)',desc:'Membranas semi-permeáveis que rejeitam 95–99% dos sólidos dissolvidos, bactérias e partículas. Para condutividades até ~4.000 ppm.',specs:{Produção:'250 L/h',Fornecedor:'Ecosoft','Rejeição':'95–99%','TDS saída':'< 30 ppm','Pressão':'6–12 bar',Alimentação:'220 V monofásico'},consumivel:'Membranas: substituição cada 2–3 anos.'};
+EQ['oi_ecosoft_500']={nome:'Osmose Inversa 500 L/h — Ecosoft',sub:'Purificação por membranas (até ~4.000 ppm TDS)',desc:'Membranas semi-permeáveis que rejeitam 95–99% dos sólidos dissolvidos. Para condutividades até ~4.000 ppm TDS.',specs:{Produção:'500 L/h',Fornecedor:'Ecosoft','Rejeição':'95–99%','TDS saída':'< 30 ppm','Pressão':'6–12 bar',Alimentação:'220 V monofásico'},consumivel:'Membranas: substituição cada 2–3 anos.'};
+EQ['oi_osmofilter']={nome:'Osmose Inversa — Osmofilter (até 10.000 ppm)',sub:'Purificação para águas de elevada salinidade',desc:'Sistema de osmose inversa para TDS até 10.000 ppm. Fornecedor Osmofilter. Litragem dimensionada caso a caso.',specs:{Fornecedor:'Osmofilter','TDS máx entrada':'10.000 ppm','Rejeição':'95–99%'},consumivel:'Membranas: substituição cada 2–3 anos.'};
+EQ['oi_peter']={nome:'Osmose Inversa Alta Pressão — Peter Tabuada (> 10.000 ppm)',sub:'Dessalinização / TDS muito elevado',desc:'Sistema de osmose de alta pressão para TDS superior a 10.000 ppm, incluindo água salobra. Dimensionamento caso a caso pela Peter Tabuada.',specs:{Fornecedor:'Peter Tabuada',Aplicação:'TDS > 10.000 ppm'},consumivel:''};
+EQ['hipoclorito']={nome:'Sistema de Dosagem de Hipoclorito de Sódio',sub:'Desinfeção por injeção de cloro',desc:'Bomba doseadora peristáltica para injeção de hipoclorito proporcional ao caudal. Para contaminação bacteriológica elevada.',specs:{Tipo:'Bomba doseadora peristáltica',Produto:'Hipoclorito de sódio','Depósito':'PEAD 50–100 L',Controlo:'Proporcional ao caudal',Alimentação:'220 V / 50 Hz'},consumivel:'Hipoclorito de sódio — consumo dependente do caudal e contaminação.'};
+EQ['serpentina']={nome:'Serpentina de Contacto',sub:'Tempo de contacto do cloro sem depósito',desc:'Instalada a jusante da bomba de hipoclorito quando não existe depósito. O percurso em espiral garante tempo de contacto mínimo de 30 segundos para eficácia da desinfeção.',specs:{Material:'Tubo PEAD alimentar','Tempo de contacto':'≥ 30 segundos',Instalação:'A jusante da injeção de hipoclorito'},consumivel:''};
+EQ['painel_cl']={nome:'Painel de Controlo de Cloro',sub:'Monitorização e dosagem automática de cloro residual',desc:'Monitoriza continuamente o cloro residual no depósito e controla a bomba doseadora automaticamente. Obrigatório em depósitos superiores a 3.000 L.',specs:{Medição:'Cloro residual livre','Sonda':'Eletroquímica, imersão',Controlador:'Eletrónico com display',Bomba:'Doseadora peristáltica',Alimentação:'220 V / 50 Hz'},consumivel:'Reagentes de calibração da sonda.'};
+EQ['painel_cl_ph']={nome:'Painel de Controlo Cloro + pH',sub:'Monitorização e dosagem automática de cloro e pH',desc:'Controla simultaneamente cloro residual e pH. Inclui duas sondas e duas bombas doseadoras (hipoclorito e corretor de pH). Para depósitos ≥ 4.000 L com pH instável.',specs:{Medição:'Cloro residual + pH','Sondas':'2× eletroquímicas, imersão','Bombas':'2× doseadoras peristálticas',Alimentação:'220 V / 50 Hz'},consumivel:'Reagentes de calibração das sondas.'};
+EQ['b_circ']={nome:'Bomba Circuladora de Depósito',sub:'Homogeneização do cloro no depósito',desc:'Garante homogeneização do hipoclorito em todo o volume do depósito, evitando zonas mortas. Trabalha em conjunto com o painel de cloro.',specs:{Tipo:'Circuladora centrífuga',Função:'Homogeneização cloro',Alimentação:'220 V / 50 Hz'},consumivel:''};
+EQ['duflow_34']={nome:'Descalcificador Duflow 3/4"',sub:'Amaciamento de água da rede — doméstico',desc:'Descalcificador compacto em linha 3/4" para água da rede. Resina catiónica com regeneração automática por sal.',specs:{Ligação:'3/4"',Aplicação:'Doméstico — rede pública',Regeneração:'Automática por sal NaCl'},consumivel:'Sal de regeneração.'};
+EQ['duflow_1']={nome:'Descalcificador Duflow Premium 1"',sub:'Amaciamento de água da rede — doméstico/comercial',desc:'Descalcificador 1" para instalações domésticas ou pequenas instalações comerciais ligadas à rede.',specs:{Ligação:'1"',Aplicação:'Doméstico / pequeno comercial — rede',Regeneração:'Automática por sal NaCl'},consumivel:'Sal de regeneração.'};
+EQ['compacto_1']={nome:'Descalcificador Compacto 1"',sub:'Amaciamento de água da rede — comercial',desc:'Descalcificador compacto 1" de maior capacidade para instalações comerciais ligadas à rede.',specs:{Ligação:'1"',Aplicação:'Comercial — rede pública',Regeneração:'Automática por sal NaCl'},consumivel:'Sal de regeneração.'};
+
+// ══════════════════════════════════════════════
+// DIMENSIONING ENGINE
+// ══════════════════════════════════════════════
+function coluna(Q){
+  if(Q<=1.30)return{id:'1054',q:'1,30',v:'K67B1 — CRO 1"'};
+  if(Q<=1.89)return{id:'1252',q:'1,89',v:'K67B1 — CRO 1"'};
+  if(Q<=2.66)return{id:'1354',q:'2,66',v:'K67B3 — VOL 1"'};
+  if(Q<=3.09)return{id:'1465',q:'3,09',v:'K67B3 — VOL 1"'};
+  return{id:'1665',q:'3,88',v:'K134A3 — VOL 1½"'};
+}
+function uvId(Q){return Q<=2.5?'uv_55':'uv_85';}
+function oiId(tds){return tds<=4000?'oi_ecosoft_500':tds<=10000?'oi_osmofilter':'oi_peter';}
+
+function dimensionar(d){
+  const L=[];
+  const add=(id,nota='')=>L.push({id,qty:1,nota,on:true,manual:false});
+  const Q=parseFloat(d.q)||1.5;
+  const ph=parseFloat(d.ph)||7;
+  const fe=parseFloat(d.fe)||0;
+  const mn=parseFloat(d.mn)||0;
+  const dur=parseFloat(d.dur)||0;
+  const nit=parseFloat(d.nit)||0;
+  const tds=parseFloat(d.tds)||0;
+  const cond=parseFloat(d.cond)||0;
+  const bact=d.bact||'ausente';
+  const orig=d.orig||'furo';
+  const depAcu=d.depAcu==='sim';
+  const depAcuVol=parseFloat(d.depAcuVol)||0;
+  const depTrat=d.depTrat==='sim';
+  const bomba=d.bomba==='sim';
+  const col=coluna(Q);
+
+  // REDE
+  if(orig==='rede'){
+    if(dur>150){
+      if(Q<=0.6)add('duflow_34');
+      else if(Q<=1.5)add('duflow_1');
+      else add('compacto_1');
+    }
+    if(ph<6.5)add('acitrap','pH ácido — correção em linha');
+    if(bact==='coliformes')add(uvId(Q),'Coliformes — UV suficiente');
+    else if(bact==='elevada')add('hipoclorito');
+    return L;
+  }
+
+  // FURO
+  if(!depAcu)add('dep_1000','Dimensionar conforme caudal do furo');
+  if(!bomba)add('mini_easybox');
+  add('prefiltro');
+
+  // Colunas
+  const temFe=fe>0.25, temMn=mn>0.05, temDur=dur>150, feAlto=fe>1.0;
+  if(temFe||temMn){
+    if(temDur){
+      add(`zeosorb_${col.id}`,'Pré-filtração obrigatória antes do Ecomix');
+      if(feAlto)add(`katalox_${col.id}`,'Deférrização primária (ferro muito elevado)');
+      add(`ecomix_${col.id}`,feAlto?'Tratamento ferro residual + dureza':'');
+    } else {
+      add(`katalox_${col.id}`);
+    }
+  } else if(temDur){
+    add('resina_cat');
+  }
+  if(nit>50)add('resina_desnit');
+  if(ph<6.5)add('acitrap','pH ácido — correção em linha');
+
+  // Desinfeção
+  if(bact==='coliformes'){
+    add(uvId(Q),'Coliformes — UV suficiente');
+  } else if(bact==='elevada'){
+    if(!depAcu||depAcuVol<500){
+      add('hipoclorito');
+      add('serpentina','Sem depósito — garantir tempo de contacto');
+    } else if(depAcuVol<=3000){
+      add('hipoclorito',`Depósito ${depAcuVol} L — injeção direta`);
+    } else {
+      if(ph<6.5||ph>8.5)add('painel_cl_ph',`Depósito > 3.000 L + pH instável`);
+      else add('painel_cl',`Depósito > 3.000 L`);
+      add('b_circ');
+    }
+  }
+
+  // OI
+  if(cond>=1700||tds>=500){
+    if(temDur)add('anti_crust','Dureza elevada + OI — obrigatório');
+    add(oiId(tds),`TDS ${tds} ppm / ${cond} µS/cm`);
+    if(!depTrat)add('dep_5000','Armazenamento água tratada');
+  }
+
+  if(!bomba)add('easy_box');
+  return L;
+}
+
+// ══════════════════════════════════════════════
+// WIZARD STATE
+// ══════════════════════════════════════════════
+const SLBLS=['Cliente','Análise','Sistema','Equipamentos','Proposta'];
+let step=1, lista=[];
+
+function buildBar(){
+  const b=document.getElementById('sbar'); b.innerHTML='';
+  SLBLS.forEach((s,i)=>{
+    const n=i+1,done=n<step,act=n===step;
+    b.innerHTML+=`<div class="si ${done?'done':act?'act':''}">
+      <div class="sdot">${done?'✓':n}</div><span class="slbl">${s}</span>
+      ${i<SLBLS.length-1?'<div class="sline"></div>':''}
+    </div>`;
+  });
+}
+
+function tog(tipo,show){
+  document.getElementById('v'+tipo).style.display=show?'':'none';
+}
+
+function collect(){
+  return{
+    nome:document.getElementById('c-nome').value.trim(),
+    num:document.getElementById('c-num').value.trim(),
+    data:document.getElementById('c-data').value,
+    aplic:document.getElementById('c-aplic').value,
+    elab:document.getElementById('c-elab').value.trim(),
+    orig:document.querySelector('input[name="orig"]:checked')?.value||'furo',
+    ph:document.getElementById('a-ph').value,
+    fe:document.getElementById('a-fe').value,
+    mn:document.getElementById('a-mn').value,
+    dur:document.getElementById('a-dur').value,
+    nit:document.getElementById('a-nit').value,
+    tds:document.getElementById('a-tds').value,
+    cond:document.getElementById('a-cond').value,
+    turv:document.getElementById('a-turv').value,
+    bact:document.querySelector('input[name="bact"]:checked')?.value||'ausente',
+    q:document.getElementById('s-q').value,
+    qc:document.getElementById('s-qc').value,
+    depAcu:document.querySelector('input[name="dacu"]:checked')?.value||'nao',
+    depAcuVol:document.getElementById('s-avol').value,
+    depTrat:document.querySelector('input[name="dtrat"]:checked')?.value||'nao',
+    depTratVol:document.getElementById('s-tvol').value,
+    bomba:document.querySelector('input[name="bomba"]:checked')?.value||'nao',
+    val:document.getElementById('p-val')?.value||'',
+    valid:document.getElementById('p-valid')?.value||'30 dias',
+    prazo:document.getElementById('p-prazo')?.value||'',
+    pag:document.getElementById('p-pag')?.value||'',
+    obs:document.getElementById('p-obs')?.value||'',
+  };
+}
+
+function validate(n){
+  if(n===1){
+    if(!document.getElementById('c-nome').value.trim()){alert('Preenche o nome do cliente.');return false;}
+    if(!document.getElementById('c-aplic').value){alert('Seleciona a aplicação.');return false;}
+  }
+  if(n===3&&!document.getElementById('s-q').value){alert('Introduz o caudal.');return false;}
+  return true;
+}
+
+function nav(dir){
+  if(dir===1&&!validate(step))return;
+  if(dir===1&&step===5){gerar();return;}
+
+  document.getElementById('p'+step).classList.remove('act');
+
+  if(dir===1&&step===3){
+    const d=collect();
+    lista=dimensionar(d);
+    renderEq(d);
+  }
+  if(dir===1&&step===4)renderResumo();
+
+  step+=dir;
+  document.getElementById('p'+step).classList.add('act');
+  document.getElementById('bbk').style.visibility=step>1?'visible':'hidden';
+  const nx=document.getElementById('bnx');
+  nx.textContent=step===5?'📄 Gerar Proposta':'Seguinte →';
+  nx.className=step===5?'btn bgen':'btn bnx';
+  document.getElementById('sctr').textContent=`Passo ${step} de ${SLBLS.length}`;
+  buildBar();
+}
+
+function renderEq(d){
+  const col=coluna(parseFloat(d.q)||1.5);
+  document.getElementById('dim-info').innerHTML=`<b>⚙️ Dimensionamento concluído</b> — caudal <b>${d.q} m³/h</b> → coluna <b>${col.id}</b>, válvula <b>${col.v}</b>. Verifica e ajusta abaixo.`;
+  const wrap=document.getElementById('eql'); wrap.innerHTML='';
+  lista.forEach((item,i)=>{
+    const eq=EQ[item.id]||{nome:item.id,sub:''};
+    const div=document.createElement('div');
+    div.className='eqi on'; div.dataset.i=i;
+    div.innerHTML=`<input type="checkbox" checked onchange="togEq(${i},this.checked)">
+      <div style="flex:1"><div class="eqlbl">${eq.nome}</div>${item.nota?`<div class="eqsub">${item.nota}</div>`:''}</div>
+      <div class="eqq"><button onclick="chQty(${i},-1)">−</button><span id="qty${i}">${item.qty}</span><button onclick="chQty(${i},+1)">+</button></div>`;
+    wrap.appendChild(div);
+  });
+}
+
+function togEq(i,v){lista[i].on=v;document.querySelector(`[data-i="${i}"]`).className='eqi'+(v?' on':'');}
+function chQty(i,d){lista[i].qty=Math.max(1,lista[i].qty+d);document.getElementById('qty'+i).textContent=lista[i].qty;}
+function addManual(){
+  const n=prompt('Nome do equipamento:'); if(!n)return;
+  lista.push({id:'_m'+Date.now(),qty:1,nota:'',on:true,manual:true,nomeM:n});
+  renderEq(collect());
+}
+
+function renderResumo(){
+  const d=collect();
+  const ativos=lista.filter(e=>e.on!==false);
+  const df=d.data?new Date(d.data).toLocaleDateString('pt-PT',{day:'2-digit',month:'long',year:'numeric'}):'—';
+  document.getElementById('resumo').innerHTML=`
+    <div style="font-weight:700;color:#1E3A5F;margin-bottom:10px;">Resumo</div>
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:5px 14px;font-size:13px;">
+      <span style="color:#888">Cliente</span><b>${d.nome}${d.num?' — '+d.num:''}</b>
+      <span style="color:#888">Aplicação</span><span>${d.aplic}</span>
+      <span style="color:#888">Data</span><span>${df}</span>
+      <span style="color:#888">Valor</span><b>${d.val?d.val+' € + IVA':'A definir'}</b>
+      <span style="color:#888">Equipamentos</span><span>${ativos.length} selecionados</span>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════
+// PROPOSAL GENERATOR
+// ══════════════════════════════════════════════
+function gerar(){
+  const d=collect();
+  const ativos=lista.filter(e=>e.on!==false);
+  const df=d.data?new Date(d.data).toLocaleDateString('pt-PT',{day:'2-digit',month:'long',year:'numeric'}):new Date().toLocaleDateString('pt-PT',{day:'2-digit',month:'long',year:'numeric'});
+
+  const CSS=`*{box-sizing:border-box;margin:0;padding:0;}body{font-family:Arial,Helvetica,sans-serif;font-size:10.5pt;color:#222;background:#bbb;}.page{width:210mm;min-height:297mm;background:white;margin:8mm auto;padding:14mm 18mm 24mm;position:relative;page-break-after:always;}@media print{body{background:white;}.page{margin:0;box-shadow:none;}}.hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;border-bottom:2px solid #1565C0;padding-bottom:10px;}.ln{font-size:20pt;font-weight:900;color:#0D2B6B;letter-spacing:1px;}.lt{font-size:7pt;color:#555;text-transform:uppercase;letter-spacing:1px;}.badge{font-size:22pt;font-weight:900;color:#1565C0;letter-spacing:4px;}.ftr{position:absolute;bottom:8mm;left:18mm;right:18mm;border-top:1px solid #1565C0;padding-top:5px;text-align:center;font-size:8.5pt;color:#1565C0;}.sec{background:#1565C0;color:white;padding:7px 14px;font-size:11pt;font-weight:bold;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 8px;}.box{border:1.5px solid #1565C0;border-radius:4px;padding:16px;margin:10px 0;}.ct{color:#1565C0;font-size:12pt;font-weight:bold;text-align:center;text-transform:uppercase;letter-spacing:1px;margin:6px 0 12px;}table{width:100%;border-collapse:collapse;margin:8px 0;font-size:9.5pt;}th{background:#1565C0;color:white;padding:6px 8px;text-align:left;}td{padding:5px 8px;border-bottom:1px solid #ddd;}tr:nth-child(even) td{background:#f0f4ff;}.sel td{background:#DBEAFE!important;font-weight:bold;border-top:2px solid #1565C0;border-bottom:2px solid #1565C0;}p{margin-bottom:7px;line-height:1.55;}.sp{font-size:9.5pt;margin-bottom:4px;}.sp b{color:#1565C0;}ul.sl{padding-left:16px;margin:6px 0;}ul.sl li{margin-bottom:3px;font-size:9.5pt;line-height:1.45;}.vb{background:#1565C0;color:white;padding:18px;text-align:center;border-radius:4px;}.vb .amt{font-size:22pt;font-weight:bold;display:block;}.vb .lbl{font-size:9pt;opacity:.85;}.note{background:#f0f4ff;border-left:4px solid #1565C0;padding:9px 13px;margin:8px 0;font-size:9.5pt;}.cbn{background:#1565C0;color:white;padding:14px 20px;text-align:center;border-radius:4px;margin-top:18px;}.cbn .ph{font-size:15pt;font-weight:bold;margin:4px 0;}.cbn .em{font-size:12pt;}.cvr{min-height:297mm;background:white;display:flex;flex-direction:column;padding:0;position:relative;overflow:hidden;}.hero{width:100%;height:98mm;background:linear-gradient(135deg,#1976D2,#0A2D6E);border-radius:0 0 32px 32px;}.cbody{padding:14mm 18mm 0;flex:1;display:flex;flex-direction:column;}.cvrt{font-size:30pt;font-weight:900;color:#111;line-height:1.1;margin-bottom:10px;}.cvrs{font-size:13pt;color:#1565C0;border-left:4px solid #1565C0;padding-left:12px;margin-bottom:28px;}.cvrc{font-size:13pt;background:#EEF4FF;border:1.5px solid #B8D0F8;padding:10px 22px;border-radius:4px;color:#0D2B6B;display:inline-block;margin-bottom:6px;}.cvrd{font-size:10pt;color:#888;}.cvrct{position:absolute;bottom:14mm;left:18mm;font-size:9.5pt;color:#1565C0;font-weight:bold;}`;
+
+  const FTR=`<div class="ftr">www.cleanpur.pt | geral@cleanpur.pt | +351 913 360 989</div>`;
+  const HDR=`<div class="hdr"><div><div class="ln">CLEANPUR<sup style="font-size:10pt">®</sup></div><div class="lt">A pureza na água</div></div><div class="badge">PROPOSTA</div></div>`;
+  const pg=(c,cl='')=>`<div class="page ${cl}">${c}${FTR}</div>`;
+
+  // Capa
+  const p1=`<div class="page cvr"><div class="hero"></div><div class="cbody"><div style="margin-bottom:18px"><div class="ln" style="font-size:26pt;color:#0D2B6B">CLEANPUR<sup style="font-size:13pt">®</sup></div><div class="lt" style="font-size:8pt;color:#1565C0;letter-spacing:2px">A pureza na água</div></div><div class="cvrt">Sistema de Tratamento<br>de Água</div><div class="cvrs">${d.aplic}</div><div class="cvrc">${d.nome}${d.num?' — '+d.num:''}</div><div class="cvrd" style="margin-top:8px">${df}</div></div><div class="cvrct">+351 913 360 989</div>${FTR}</div>`;
+
+  // Dados
+  const p2=pg(`${HDR}<div class="ct">DADOS DA PROPOSTA</div><div class="box"><table>
+    <tr><th colspan="2" style="font-size:11pt;text-align:center">PROPOSTA Nº: ____________</th></tr>
+    <tr><td><b>Cliente</b></td><td>${d.nome}</td></tr>
+    ${d.num?`<tr><td><b>Nº de Cliente</b></td><td>${d.num}</td></tr>`:''}
+    <tr><td><b>Data</b></td><td>${df}</td></tr>
+    <tr><td><b>Validade</b></td><td>${d.valid}</td></tr>
+    <tr><td><b>Aplicação</b></td><td>${d.aplic}</td></tr>
+    <tr><td><b>Origem da água</b></td><td>${d.orig==='furo'?'Furo / Poço':d.orig==='rede'?'Rede pública':'Mista (furo + rede)'}</td></tr>
+    <tr><td><b>Elaborado por</b></td><td>${d.elab}</td></tr>
+  </table></div>`);
+
+  // Quem somos
+  const p3=pg(`${HDR}<div class="ct">QUEM SOMOS</div><div class="box"><p>A <b>Cleanpur</b> é uma empresa portuguesa especializada em sistemas de tratamento e purificação de água, com mais de 25 anos de experiência. Atuamos em todo o território nacional com soluções personalizadas para aplicações domésticas, industriais, agrícolas e comerciais.</p><p>Cada proposta é dimensionada exclusivamente para o cliente, com base nos parâmetros reais da sua água. Trabalhamos com equipamentos de marcas líderes, assegurando instalação, formação e assistência técnica pós-venda.</p></div>
+  <div class="sec">Por que escolher a Cleanpur?</div>
+  <ul class="sl"><li><b>Análise da água incluída</b> — diagnóstico antes de qualquer proposta</li><li><b>Dimensionamento rigoroso</b> — calculado para os parâmetros reais</li><li><b>Equipamentos certificados</b> — marcas europeias com garantia</li><li><b>Equipa técnica própria</b> — instalação e assistência em todo o país</li><li><b>25 Anos de experiência</b> — centenas de instalações em Portugal</li></ul>`);
+
+  // Análise água
+  const anRows=[];
+  const ap=(nome,v,un,lim,ok)=>{if(v)anRows.push(`<tr><td>${nome}</td><td>${v}</td><td>${un}</td><td>${lim}</td><td style="color:${ok?'green':'#B45309'};font-weight:bold">${ok?'✓ Normal':'⚠ Atenção'}</td></tr>`);};
+  if(d.ph)ap('pH',d.ph,'—','6,5 a 9,5',parseFloat(d.ph)>=6.5&&parseFloat(d.ph)<=9.5);
+  if(d.fe)ap('Ferro (Fe)',d.fe,'mg/L','0,25',parseFloat(d.fe)<=0.25);
+  if(d.mn)ap('Manganês (Mn)',d.mn,'mg/L','0,05',parseFloat(d.mn)<=0.05);
+  if(d.dur)ap('Dureza (CaCO₃)',d.dur,'mg/L','150–500',parseFloat(d.dur)<=500);
+  if(d.nit)ap('Nitratos (NO₃)',d.nit,'mg/L','50',parseFloat(d.nit)<=50);
+  if(d.cond)ap('Condutividade',d.cond,'µS/cm','2500',parseFloat(d.cond)<=2500);
+  if(d.tds)ap('TDS',d.tds,'ppm','—',true);
+  if(d.turv)ap('Turvação',d.turv,'NTU','1',parseFloat(d.turv)<=1);
+  const p4=anRows.length?pg(`${HDR}<div class="ct">RESULTADOS DA ANÁLISE DA ÁGUA</div>
+    <div class="box"><table><tr><th colspan="2">Identificação da Amostra</th></tr>
+    <tr><td><b>Cliente</b></td><td>${d.nome}${d.num?' — '+d.num:''}</td></tr>
+    <tr><td><b>Origem</b></td><td>${d.orig==='furo'?'Água de furo / poço':'Água da rede pública'}</td></tr>
+    <tr><td><b>Data</b></td><td>${df}</td></tr></table></div>
+    <div class="sec">Parâmetros Analisados</div>
+    <table><tr><th>Parâmetro</th><th>Resultado</th><th>Unidade</th><th>Valor paramétrico</th><th>Estado</th></tr>${anRows.join('')}</table>`):'';
+
+  // Equipment pages
+  let eqPages='';
+  ativos.forEach(item=>{
+    const eq=EQ[item.id];
+    if(!eq){
+      eqPages+=pg(`${HDR}<div class="box"><div class="ct">EQUIPAMENTO</div><p style="font-size:11pt;font-weight:bold;text-transform:uppercase">${item.nomeM||item.id}</p></div>`);
+      return;
+    }
+    const sps=Object.entries(eq.specs).map(([k,v])=>`<p class="sp"><b>${k}:</b> ${v}</p>`).join('');
+    const tbl=eq.tabela?`<table style="margin-top:12px">${eq.tabela.map((r,i)=>i===0?`<tr>${r.map(c=>`<th>${c}</th>`).join('')}</tr>`:`<tr${r[0].startsWith('★')?' class="sel"':''}>${r.map(c=>`<td>${c.replace('★ ','')}</td>`).join('')}</tr>`).join('')}</table>`:'';
+    const cons=eq.consumivel?`<div class="note"><b>Manutenção / consumíveis:</b> ${eq.consumivel}</div>`:'';
+    eqPages+=pg(`${HDR}<div class="box"><div class="ct">DESCRIÇÃO PORMENORIZADA DO EQUIPAMENTO</div>
+      <p style="font-size:11pt;font-weight:bold;text-transform:uppercase">${eq.nome}</p>
+      <p style="font-style:italic;color:#555;margin-bottom:12px">${eq.sub}</p>
+      <p>${eq.desc}</p>
+      <p style="text-decoration:underline;font-weight:bold;margin-top:10px">CARACTERÍSTICAS TÉCNICAS</p>
+      ${sps}${tbl}${cons}</div>`);
+  });
+
+  // Orçamento
+  const pOrc=pg(`${HDR}<div class="ct">ORÇAMENTO</div>
+    <div class="sec">VALOR DA PROPOSTA</div>
+    <div class="vb" style="max-width:340px;margin:20px auto"><span class="amt">${d.val?d.val+' €':'A DEFINIR'}</span><span class="lbl">Valor + IVA (23%)</span></div>
+    ${d.obs?`<div class="note" style="margin-top:16px"><b>Observações:</b> ${d.obs}</div>`:''}
+    <div class="sec" style="margin-top:20px">CONDIÇÕES GERAIS</div>
+    <table>
+      <tr><td><b>Prazo de entrega:</b></td><td>${d.prazo}</td></tr>
+      <tr><td><b>Condições de pagamento:</b></td><td>${d.pag}</td></tr>
+      <tr><td><b>Validade:</b></td><td>${d.valid}</td></tr>
+      <tr><td><b>Instalação:</b></td><td>Incluída com acessórios (sujeito a verificação em obra).</td></tr>
+      <tr><td><b>Garantia:</b></td><td>2 anos nos equipamentos; 1 ano na instalação.</td></tr>
+    </table>
+    <div class="cbn"><p style="font-size:11pt;margin-bottom:8px">Para esclarecimentos ou adjudicações</p><div class="ph">☎ +351 913 360 989</div><div class="em">✉ geral@cleanpur.pt</div></div>`);
+
+  // Designação
+  const desig=ativos.map(item=>{
+    const eq=EQ[item.id];
+    return`<tr><td>— ${eq?eq.nome:(item.nomeM||item.id)}</td><td style="text-align:center">${item.qty}</td></tr>`;
+  }).join('');
+  const pDesig=pg(`${HDR}
+    <table><tr><th style="width:80%">DESIGNAÇÃO</th><th style="width:20%;text-align:center">QT.</th></tr>${desig}</table>
+    <table style="margin-top:16px"><tr><th colspan="2">CONDIÇÕES GERAIS</th></tr>
+      <tr><td><b>Prazo de entrega:</b></td><td>${d.prazo}</td></tr>
+      <tr><td><b>Pagamento:</b></td><td>${d.pag}</td></tr>
+      <tr><td><b>Validade:</b></td><td>${d.valid}</td></tr>
+      <tr><td><b>Instalação:</b></td><td>Incluída (sujeito a verificação em obra).</td></tr>
+      <tr><td><b>Garantia:</b></td><td>2 anos equipamentos; 1 ano instalação.</td></tr>
+    </table>
+    <div class="cbn"><div class="ph">☎ +351 913 360 989</div><div class="em">✉ geral@cleanpur.pt</div></div>`);
+
+  const html=`<!DOCTYPE html><html lang="pt"><head><meta charset="UTF-8"><title>Proposta CleanPur — ${d.nome}</title><style>${CSS}</style></head><body>${p1}${p2}${p3}${p4}${eqPages}${pOrc}${pDesig}</body></html>`;
+  const blob=new Blob([html],{type:'text/html'});
+  const url=URL.createObjectURL(blob);
+  const w=window.open(url,'_blank');
+  if(!w)alert('Permite popups para abrir a proposta.');
+}
+
+// Init
+window.onload=()=>{
+  buildBar();
+  document.getElementById('c-data').value=new Date().toISOString().split('T')[0];
+  document.getElementById('sctr').textContent=`Passo 1 de ${SLBLS.length}`;
+};
+</script>
+</body>
+</html>
