@@ -318,7 +318,7 @@ function dimensionar(d){
   }
 
   // OI
-  if(cond>=1700||tds>=500){
+  if(cond>=1700){
     if(temDur)add('anti_crust','Dureza elevada + OI — obrigatório');
     add(oiId(tds),`TDS ${tds} ppm / ${cond} µS/cm`);
     if(!depTrat)add('dep_5000','Armazenamento água tratada');
