@@ -60,6 +60,11 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#EEF2F7;min-height:100vh
 .bnx{background:linear-gradient(135deg,#1E3A5F,#2D6AA0);color:#fff;}.bnx:hover{opacity:.88;}
 .bgen{background:linear-gradient(135deg,#00A87A,#0095FF);color:#fff;font-size:14.5px;padding:11px 28px;}
 .sctr{font-size:11.5px;color:#aaa;}
+.orig-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:2px;}
+.orig-grid .ro{cursor:pointer;}
+.orig-grid .rb{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;text-align:center;font-size:11.5px;line-height:1.3;border:1.5px solid #E2E6EE;border-radius:8px;background:#fff;transition:all .15s;white-space:normal;}
+.orig-grid .rb .oe{font-size:18px;}
+.orig-grid .ro input:checked+.rb{border-color:#1E3A5F;background:#EEF3FA;color:#1E3A5F;font-weight:700;}
 </style>
 </head>
 <body>
@@ -95,10 +100,14 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#EEF2F7;min-height:100vh
   </div></div>
   <div class="div"></div>
   <div class="f" style="margin-bottom:10px;"><label>Origem da Água *</label></div>
-  <div class="rg">
-    <label class="ro"><input type="radio" name="orig" value="furo" checked><span class="rb">🔵 Furo / Poço</span></label>
-    <label class="ro"><input type="radio" name="orig" value="rede"><span class="rb">🏙️ Rede Pública</span></label>
-    <label class="ro"><input type="radio" name="orig" value="misto"><span class="rb">🔄 Mista</span></label>
+  <div class="orig-grid">
+    <label class="ro"><input type="radio" name="orig" value="furo" checked><span class="rb"><span class="oe">🔵</span>Furo</span></label>
+    <label class="ro"><input type="radio" name="orig" value="poco"><span class="rb"><span class="oe">💧</span>Poço</span></label>
+    <label class="ro"><input type="radio" name="orig" value="mina"><span class="rb"><span class="oe">⛏️</span>Mina</span></label>
+    <label class="ro"><input type="radio" name="orig" value="barragem"><span class="rb"><span class="oe">🏞️</span>Barragem</span></label>
+    <label class="ro"><input type="radio" name="orig" value="companhia"><span class="rb"><span class="oe">🏙️</span>Companhia</span></label>
+    <label class="ro"><input type="radio" name="orig" value="rio"><span class="rb"><span class="oe">🌿</span>Rio</span></label>
+    <label class="ro"><input type="radio" name="orig" value="mar"><span class="rb"><span class="oe">🌊</span>Mar</span></label>
   </div>
   <div class="fg fg1" style="margin-top:14px;"><div class="f"><label>Elaborado por</label><input id="c-elab" value="CleanPur — Engenharia de Tratamento de Água"></div></div>
 </div>
@@ -265,10 +274,11 @@ function dimensionar(d){
   const depAcuVol=parseFloat(d.depAcuVol)||0;
   const depTrat=d.depTrat==='sim';
   const bomba=d.bomba==='sim';
+  const isRede=orig==='companhia';
   const col=coluna(Q);
 
-  // REDE
-  if(orig==='rede'){
+  // COMPANHIA
+  if(isRede){
     if(dur>150){
       if(Q<=0.6)add('duflow_34');
       else if(Q<=1.5)add('duflow_1');
@@ -476,7 +486,7 @@ function gerar(){
     <tr><td><b>Data</b></td><td>${df}</td></tr>
     <tr><td><b>Validade</b></td><td>${d.valid}</td></tr>
     <tr><td><b>Aplicação</b></td><td>${d.aplic}</td></tr>
-    <tr><td><b>Origem da água</b></td><td>${d.orig==='furo'?'Furo / Poço':d.orig==='rede'?'Rede pública':'Mista (furo + rede)'}</td></tr>
+    <tr><td><b>Origem da água</b></td><td>${({furo:'Furo',poco:'Poço',mina:'Mina',barragem:'Barragem',companhia:'Companhia (Rede Pública)',rio:'Rio',mar:'Mar'})[d.orig]||d.orig}</td></tr>
     <tr><td><b>Elaborado por</b></td><td>${d.elab}</td></tr>
   </table></div>`);
 
@@ -499,7 +509,7 @@ function gerar(){
   const p4=anRows.length?pg(`${HDR}<div class="ct">RESULTADOS DA ANÁLISE DA ÁGUA</div>
     <div class="box"><table><tr><th colspan="2">Identificação da Amostra</th></tr>
     <tr><td><b>Cliente</b></td><td>${d.nome}${d.num?' — '+d.num:''}</td></tr>
-    <tr><td><b>Origem</b></td><td>${d.orig==='furo'?'Água de furo / poço':'Água da rede pública'}</td></tr>
+    <tr><td><b>Origem</b></td><td>${d.orig==='companhia'?'Água da rede pública (Companhia)':({furo:'Água de furo',poco:'Água de poço',mina:'Água de mina',barragem:'Água de barragem',rio:'Água de rio',mar:'Água do mar'})[d.orig]||d.orig}</td></tr>
     <tr><td><b>Data</b></td><td>${df}</td></tr></table></div>
     <div class="sec">Parâmetros Analisados</div>
     <table><tr><th>Parâmetro</th><th>Resultado</th><th>Unidade</th><th>Valor paramétrico</th><th>Estado</th></tr>${anRows.join('')}</table>`):'';
